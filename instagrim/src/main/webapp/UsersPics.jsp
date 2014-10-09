@@ -16,9 +16,11 @@
     </head>
     <body>
         <header>
-        
+        <%  LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");%>
         <h1>InstaGrim ! </h1>
         <h2>Your world in Black and White</h2>
+        
+        <h2>Hello, <% out.println(lg.getUsername()); %></h2>
         </header>
         
         <nav>

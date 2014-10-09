@@ -33,6 +33,7 @@
                     %>
 
                 <li><a href="/Instagrim/Images/<%=lg.getUsername()%>">Your Images</a></li>
+                <li><a href="/Instagrim/Logout">Logout</a></li>
                     <%}
                             }else{
                                 %>
@@ -47,7 +48,7 @@
         <footer>
             <ul>
                 <li class="footer"><a href="/Instagrim">Home</a></li>
-                <li>&COPY; Andy C</li>
+                <li>&COPY; Konstantin I.</li>
             </ul>
         </footer>
     </body>
