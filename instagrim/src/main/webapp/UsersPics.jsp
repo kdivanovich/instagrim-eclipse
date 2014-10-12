@@ -20,7 +20,7 @@
         <h1>InstaGrim ! </h1>
         <h2>Your world in Black and White</h2>
         
-        <h2>Hello, <% out.println(lg.getUsername()); %></h2>
+        <h2>Logged in as: <% out.println(lg.getUsername()); %></h2>
         </header>
         
         <nav>
@@ -39,13 +39,21 @@
         <p>No Pictures found</p>
         <%
         } else {
+        	/*
             Iterator<Pic> iterator;
             iterator = lsPics.iterator();
             while (iterator.hasNext()) {
                 Pic p = (Pic) iterator.next();
+                */
+            for (int i =0; i<lsPics.size(); i++ ){	// my code, replicates Andy's code above
+             	Pic p = lsPics.get(i);
+                
 
         %>
-        <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a><br/><%
+        <!-- deleted a "<br/>" at the end of the previous line, the Break made the pics display in a column-->
+        
+        <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a><%
+        
 
             }
             }
