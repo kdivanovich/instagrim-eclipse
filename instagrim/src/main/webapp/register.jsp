@@ -15,8 +15,8 @@
     
     <body>
         <header>
-        <h1>InstaGrim ! </h1>
-        <h2>Your world in Black and White</h2>
+        <h1><center>InstaGrim ! </center></h1>
+        <h2><center>Your world in Black and White</center></h2>        
         </header>
         
         <nav>

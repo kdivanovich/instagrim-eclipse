@@ -54,16 +54,22 @@ public class Register extends HttpServlet {
 
 			User us = new User();
 			us.setCluster(cluster);
-			us.RegisterUser(username, password);
-						
-			response.sendRedirect("/Instagrim");
+			//us.RegisterUser(username, password);						
+			//response.sendRedirect("/Instagrim");				
 			
-		} else {	
-			
-			response.sendRedirect("errorMessage.jsp");
-			//response.setHeader("Refresh", "1; URL=/Instagrim");  	// wait 2 seconds, then go to the main page			
+			boolean checkRegistration = us.RegisterUser(username, password);                                 
+            
+            if (checkRegistration == false){    // if the name is taken = fail        	
+            	response.sendRedirect("errorUsernameTaken.jsp");            	
+            }
+            else{
+                response.sendRedirect("/Instagrim");
+            }
+		} else {
+			response.sendRedirect("errorUserPassLength.jsp");
 		}
-
+		
+		
 	}
 
 	/**
@@ -77,12 +83,15 @@ public class Register extends HttpServlet {
 	}// </editor-fold>
 
 	
+	// OBSOLETE UNLESS CHANGED ABOVE TO USE IT
 	// username and password cannot be less than 2 symbols each
 	public boolean registrationError(String user, String pass) {
 		if (user.length() < 2 || pass.length() < 2) {
-			return true;	// return that ther IS an error while registering 
+			return true;	// there is an error while registering 
 		} else
 			return false;	// registration details are fine
 	}
 
+
+	
 }

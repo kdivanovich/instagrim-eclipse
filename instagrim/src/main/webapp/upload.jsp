@@ -13,8 +13,8 @@
         <link rel="stylesheet" type="text/css" href="Styles.css" />
     </head>
     <body>
-        <h1>InstaGrim ! </h1>
-        <h2>Your world in Black and White</h2>
+        <h1><center>InstaGrim ! </center></h1>
+        <h2><center>Your world in Black and White</center></h2>        
         <nav>
             <ul>
                 <li class="nav"><a href="upload.jsp">Upload</a></li>
