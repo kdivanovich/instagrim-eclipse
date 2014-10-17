@@ -22,18 +22,23 @@
         <nav>
             <ul>
 
-               
-                <li><a href="upload.jsp">Upload</a></li>
-                    <%
-                        
+
+					<%                        
                         LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
                         if (lg != null) {
                             String UserName = lg.getUsername();
                             if (lg.getlogedin()) {
                     %>
-
+                                    
+				<IMG HEIGHT=50 WIDTH=50 SRC="/Instagrim/Image/554b7710-525e-11e4-a3b7-6894234415aa"></A>
+				<h3><% out.println(lg.getUsername()); %></h3>
+               
+                <li><a href="upload.jsp">Upload</a></li>
                 <li><a href="/Instagrim/Images/<%=lg.getUsername()%>">Your Images</a></li>
-                <li><a href="/Instagrim/Logout">Logout</a></li>
+                <li><a href="/Instagrim/Logout">Logout</a></li> </br>
+                
+               
+                
                     <%}
                             }else{
                                 %>
