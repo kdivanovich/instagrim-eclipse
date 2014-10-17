@@ -18,13 +18,15 @@
         <header>
         <%  LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");%>
         <h1><center>InstaGrim ! </center></h1>
-        <h2><center>Your world in Black and White</center></h2>
-        
-        <h2>Logged in as: <% out.println(lg.getUsername()); %></h2>
+        <h2><center>Your world in Black and White</center></h2>        
         </header>
+        
         
         <nav>
             <ul>
+            	<a href="/Instagrim"><b>Home</b></a></br></br>
+            	<IMG HEIGHT=50 WIDTH=50 SRC="/Instagrim/Image/554b7710-525e-11e4-a3b7-6894234415aa"></A>
+				<h3><% out.println(lg.getUsername()); %></h3>
                 <li class="nav"><a href="/Instagrim/upload.jsp">Upload</a></li>
                 <li class="nav"><a href="/Instagrim/Images/majed">Sample Images</a></li>
             </ul>
@@ -59,9 +61,10 @@
             }
         %>
         </article>
-        <footer>
-            <ul>
-                <li class="footer"><a href="/Instagrim">Home</a></li>
+         <footer>
+            <ul>                
+                <li>&COPY; Konstantin I.</li>
+                <li>Dundee, 2014</li>
             </ul>
         </footer>
     </body>
