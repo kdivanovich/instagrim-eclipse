@@ -32,6 +32,7 @@
                 <ul>
                     <li>User Name <input type="text" name="username"></li>
                     <li>Password <input type="password" name="password"></li>
+                    <li>Repeat your password <input type="password" name="repeatPassword"></li>
                 </ul>
                 <br/>
                 <input type="submit" value="Register"> 
