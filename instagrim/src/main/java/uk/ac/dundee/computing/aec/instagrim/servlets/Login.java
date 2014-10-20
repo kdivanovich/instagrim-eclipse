@@ -50,6 +50,7 @@ public class Login extends HttpServlet {
         
         String username=request.getParameter("username");
         String password=request.getParameter("password");
+        String first_name=request.getParameter("first_name");	// parse your first name from the dB
         
         User us=new User();
         us.setCluster(cluster);
@@ -60,6 +61,7 @@ public class Login extends HttpServlet {
             LoggedIn lg= new LoggedIn();
             lg.setLogedin();
             lg.setUsername(username);
+            lg.setFirstName(us.getFirstName(username));		// get the First Name attribute, then set first name 
             //request.setAttribute("LoggedIn", lg);
             
             session.setAttribute("LoggedIn", lg);

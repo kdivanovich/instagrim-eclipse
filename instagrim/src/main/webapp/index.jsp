@@ -34,15 +34,18 @@
                                     
 				<IMG HEIGHT=50 WIDTH=50 SRC="/Instagrim/Image/554b7710-525e-11e4-a3b7-6894234415aa"></A>
 				<h3><% out.println(lg.getUsername()); %></h3>
+				<div align="center"> Hello, <% out.println(lg.getFirstName()); %></div>
                
+                <li><a href="/Instagrim/profile.jsp">Profile</a></li>
                 <li><a href="upload.jsp">Upload</a></li>
                 <li><a href="/Instagrim/Images/<%=lg.getUsername()%>">Your Images</a></li>
                 <li><a href="/Instagrim/Logout">Logout</a></li> </br>
                 
-               
+                <li><a href="updateInfo.jsp">Update Info</a></li>
+                               
                 
                     <%}
-                            }else{
+                            } else {
                                 %>
                  <li><a href="register.jsp">Register</a></li>
                 <li><a href="login.jsp">Login</a></li>

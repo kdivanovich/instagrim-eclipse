@@ -12,10 +12,13 @@ import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
+
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+
 import uk.ac.dundee.computing.aec.instagrim.lib.AeSimpleSHA1;
 import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
+//import uk.ac.dundee.computing.aec.instagrim.stores.UsersStore;
 
 /**
  *
@@ -79,6 +82,8 @@ public class User {
         
     
     public boolean IsValidUser(String username, String Password){
+    	
+    	// encoding the password:
         AeSimpleSHA1 sha1handler=  new AeSimpleSHA1();
         String EncodedPassword=null;
         try {
@@ -87,6 +92,8 @@ public class User {
             System.out.println("Can't check your password");
             return false;
         }
+        // end of encoding
+        
         Session session = cluster.connect("instagrim");
         PreparedStatement ps = session.prepare("select password from userprofiles where login =?");
         ResultSet rs = null;
@@ -104,14 +111,31 @@ public class User {
                 if (StoredPass.compareTo(EncodedPassword) == 0)
                     return true;
             }
-        }
-   
-    
+        }   
     return false;  
     }
        public void setCluster(Cluster cluster) {
         this.cluster = cluster;
     }
 
-    
+       // the method that pulls the First Name from the database
+       public String getFirstName(String username){
+    	   String firstName = "no name found";
+    	   Session session = cluster.connect("instagrim");
+           PreparedStatement ps = session.prepare("select first_name from userprofiles where login =?");
+           ResultSet rs = null;
+           BoundStatement boundStatement = new BoundStatement(ps);
+           rs = session.execute( // this is where the query is executed
+                   boundStatement.bind(username)); // here you are binding the 'boundStatement'                           
+           if (rs.isExhausted()) {
+               System.out.println("No first name found");
+               return "";
+           } else {
+               for (Row row : rs) {                  
+                   firstName = row.getString("first_name");               
+                   }
+           }   
+       return firstName ;  
+       }          
+           
 }

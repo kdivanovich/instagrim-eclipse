@@ -51,9 +51,9 @@ public class Image extends HttpServlet {
     public Image() {
         super();
         // TODO Auto-generated constructor stub
-        CommandsMap.put("Image", 1);
+        CommandsMap.put("Image",  1);
         CommandsMap.put("Images", 2);
-        CommandsMap.put("Thumb", 3);
+        CommandsMap.put("Thumb",  3);
 
     }
 

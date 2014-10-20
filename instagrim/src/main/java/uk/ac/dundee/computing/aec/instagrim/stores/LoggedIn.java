@@ -13,8 +13,19 @@ package uk.ac.dundee.computing.aec.instagrim.stores;
 public class LoggedIn {
     boolean logedin=false;
     String Username=null;
+    
+    // to get the first name, getter/setter below
+    String first_name = null;
+    
     public void LogedIn(){
         
+    }
+    
+    public void setFirstName(String firstName){
+        this.first_name=firstName;
+    }
+    public String getFirstName(){
+        return first_name;
     }
     
     public void setUsername(String name){
