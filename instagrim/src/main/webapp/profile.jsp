@@ -18,10 +18,10 @@
      <a href="/Instagrim"><b>Home</b></a></br></br>
      
      <%  LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");%>
-     Username: <% out.print(lg.getUsername()); %>	</br>
-     Email: </br>
-     Bio: </br>
-     
+     Username: <% out.print(lg.getUsername()); %> </br>
+     First name: <% out.print(lg.getFirstName()); %> </br>
+     Last name: <% out.print(lg.getLastName()); %>	</br>     
+     Email: <% out.print(lg.getEmail()); %> </br>     
 
 </body>
 </html>

@@ -47,6 +47,8 @@ public class Register extends HttpServlet {
 		String repeatPassword = request.getParameter("repeatPassword");	// ensure the password is correct - 2nd field for a pass
 		
 		String firstName = request.getParameter("firstName");
+		String lastName = request.getParameter("lastName");
+		String email = request.getParameter("email");
 		
 		if (repeatPassword.equals(password)) {
 			
@@ -58,7 +60,7 @@ public class Register extends HttpServlet {
 					// us.RegisterUser(username, password);
 					// response.sendRedirect("/Instagrim");
 
-				boolean checkRegistration = us.RegisterUser(username, password, firstName);
+				boolean checkRegistration = us.RegisterUser(username, password, firstName, lastName, email);
 
 				if (checkRegistration == false) { // if the name is taken = fail
 					response.sendRedirect("errorUsernameTaken.jsp");
@@ -73,12 +75,12 @@ public class Register extends HttpServlet {
 		} else {	// if passwords don't match display an error
 			response.sendRedirect("errorPasswordsNotMatch.jsp");
 		}
-
 	}
 
+	
+	
 	/**
 	 * Returns a short description of the servlet.
-	 *
 	 * @return a String containing servlet description
 	 */
 	@Override

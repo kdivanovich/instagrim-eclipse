@@ -14,13 +14,26 @@ public class LoggedIn {
     boolean logedin=false;
     String Username=null;
     
-    // to get the first name, getter/setter below
+    // to get the first name, getter/setter below called on an object lg in the .jsp files
     String first_name = null;
+    String last_name = null;
+    String email = null;
     
-    public void LogedIn(){
-        
+    public void LogedIn(){        
     }
     
+    public void setLastName(String lastName){
+        this.last_name=lastName;
+    }
+    public String getLastName(){
+        return last_name;
+    }
+    public void setEmail(String email){
+        this.email=email;
+    }
+    public String getEmail(){
+        return email;
+    }
     public void setFirstName(String firstName){
         this.first_name=firstName;
     }
@@ -47,4 +60,5 @@ public class LoggedIn {
     public boolean getlogedin(){
         return logedin;
     }
+
 }

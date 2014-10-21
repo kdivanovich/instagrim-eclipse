@@ -30,7 +30,7 @@ public class User {
         
     }
     
-    public boolean RegisterUser(String username, String Password, String firstName ){
+    public boolean RegisterUser(String username, String Password, String firstName, String lastName, String email ){
         AeSimpleSHA1 sha1handler=  new AeSimpleSHA1();
         String EncodedPassword=null;
         try {
@@ -48,9 +48,10 @@ public class User {
         	 * A SQL statement is precompiled and stored in a >>>PreparedStatement object<<<. 
         	 * This object can then be used to efficiently execute this statement multiple times.
         	 */        
-        PreparedStatement psChecker = session.prepare("select login from userprofiles where login =?"); 	// a checker to prepare for pulling usr/pass from database        
+                
         PreparedStatement ps = session.prepare
-        		("insert into userprofiles (login,password,first_name) Values(?,?,?)");
+        		("insert into userprofiles (login,password,first_name,last_name,email) Values(?,?,?,?,?)");
+        PreparedStatement psChecker = session.prepare("select login from userprofiles where login =?"); 	// a checker to prepare for pulling usr/pass from database
         	// prepare the query to put the first name:
         //PreparedStatement psFirstName = session.prepare("insert into userprofiles (login,first_name) Values('currentUser', ?)");
        
@@ -76,15 +77,17 @@ public class User {
         if (!usernameResults.isExhausted()){	//If statement to go through the usernames in the database and check if yours is available
             return false;
         }
-        else{
-        
+        else{        
         	// else execute Andy's original code: 
         session.execute( // this is where the query is executed
-                boundStatement.bind(username,EncodedPassword, firstName)); // here you are binding the 'boundStatement'   
+                boundStatement.bind(username,EncodedPassword,firstName,lastName,email)); // here you are binding the 'boundStatement'   
         }
         return true;
     }
         
+    
+    
+    //================================================================================================================ 
     
     public boolean IsValidUser(String username, String Password){    	
     		// encoding the password:

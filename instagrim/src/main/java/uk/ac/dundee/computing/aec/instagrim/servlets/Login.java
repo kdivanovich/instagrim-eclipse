@@ -25,64 +25,73 @@ import uk.ac.dundee.computing.aec.instagrim.stores.LoggedIn;
  *
  * @author Administrator
  */
-@WebServlet(name = "Login", urlPatterns = {"/Login"})
+@WebServlet(name = "Login", urlPatterns = { "/Login" })
 public class Login extends HttpServlet {
 
-    Cluster cluster=null;
+	Cluster cluster = null;
 
+	public void init(ServletConfig config) throws ServletException {
+		// TODO Auto-generated method stub
+		cluster = CassandraHosts.getCluster();
+	}
 
-    public void init(ServletConfig config) throws ServletException {
-        // TODO Auto-generated method stub
-        cluster = CassandraHosts.getCluster();
-    }
+	/**
+	 * Handles the HTTP <code>POST</code> method.
+	 *
+	 * @param request
+	 *            servlet request
+	 * @param response
+	 *            servlet response
+	 * @throws ServletException
+	 *             if a servlet-specific error occurs
+	 * @throws IOException
+	 *             if an I/O error occurs
+	 */
+	@Override
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        String username=request.getParameter("username");
-        String password=request.getParameter("password");
-        String first_name=request.getParameter("first_name");	// parse your first name from the dB
-        
-        User us=new User();
-        us.setCluster(cluster);
-        boolean isValid=us.IsValidUser(username, password);
-        HttpSession session=request.getSession();
-        System.out.println("Session in servlet "+session);
-        if (isValid){
-            LoggedIn lg= new LoggedIn();
-            lg.setLogedin();
-            lg.setUsername(username);
-            lg.setFirstName(us.getFirstName(username));		// get the First Name attribute, then set first name 
-            //request.setAttribute("LoggedIn", lg);
-            
-            session.setAttribute("LoggedIn", lg);
-            System.out.println("Session in servlet "+session);
-            RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
-	    rd.forward(request,response);
-            
-        }else{
-            response.sendRedirect("/Instagrim/login.jsp");
-        }
-        
-    }
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		String first_name = request.getParameter("first_name"); // parse your first name from the dB
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+		if (username.length() > 0 && password.length() > 0) {
+			User us = new User();
+			us.setCluster(cluster);
+			boolean isValid = us.IsValidUser(username, password);
+			HttpSession session = request.getSession();
+			System.out.println("Session in servlet " + session);
+
+			if (isValid) {
+				LoggedIn lg = new LoggedIn();
+				lg.setLogedin();
+				lg.setUsername(username);
+				lg.setFirstName(us.getFirstName(username)); // get the First Name attribute, then set first name
+				// request.setAttribute("LoggedIn", lg);
+
+				session.setAttribute("LoggedIn", lg);
+				System.out.println("Session in servlet " + session);
+				RequestDispatcher rd = request
+						.getRequestDispatcher("index.jsp");
+				rd.forward(request, response);
+
+			} else {
+				response.sendRedirect("/Instagrim/login.jsp");
+			}
+		} else {
+			response.sendRedirect("errorUserPassLength.jsp");
+		}
+
+	}
+
+	/**
+	 * Returns a short description of the servlet.
+	 *
+	 * @return a String containing servlet description
+	 */
+	@Override
+	public String getServletInfo() {
+		return "Short description";
+	}// </editor-fold>
 
 }
