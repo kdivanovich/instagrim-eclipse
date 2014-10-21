@@ -30,9 +30,13 @@
             <h3>Register as user</h3>
             <form method="POST"  action="Register">
                 <ul>
-                    <li>User Name <input type="text" name="username"></li>
-                    <li>Password <input type="password" name="password"></li>
-                    <li>Repeat your password <input type="password" name="repeatPassword"></li>
+                    Fields marked with a star (*) are compulsory. </br></br>
+                    <li>User Name * <input type="text" name="username"></li>
+                    <li>Password * <input type="password" name="password"></li>
+                    <li>Repeat your password * <input type="password" name="repeatPassword"></li></br>
+                    
+                    <li>First name <input type="text" name="firstName"></li>
+                    
                 </ul>
                 <br/>
                 <input type="submit" value="Register"> 

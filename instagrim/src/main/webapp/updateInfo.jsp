@@ -24,14 +24,20 @@
 		</h2>
 	</header>
 	<nav>
-		<a href="/Instagrim"><b>Home</b></a></br>
-		</br>
+		<a href="/Instagrim"><b>Home</b></a></br> </br>
 	</nav>
-	<% LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn"); %>
+	<%
+		LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
+	%>
 	
-	First name: <input type="text" name="FirstName" value= <%=lg.getFirstName()%>> 
-	<input type="submit" value="Submit change"> 
-	
-	
+
+	<form method="POST" action="UpdateInfo">
+		First name: <input type="text" name="firstName"
+			value=<%=lg.getFirstName()%>> <input type="submit"
+			value="Submit change">
+	</form>
+
+
+
 </body>
 </html>

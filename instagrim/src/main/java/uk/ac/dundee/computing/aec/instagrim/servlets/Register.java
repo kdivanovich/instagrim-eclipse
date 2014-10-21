@@ -33,45 +33,37 @@ public class Register extends HttpServlet {
 	}
 
 	/**
-	 * Handles the HTTP <code>POST</code> method.
-	 *
-	 * @param request
-	 *            servlet request
-	 * @param response
-	 *            servlet response
-	 * @throws ServletException
-	 *             if a servlet-specific error occurs
-	 * @throws IOException
-	 *             if an I/O error occurs
+	 * Handles the HTTP <code>POST</code> method.	 *
+	 * @param request servlet request
+	 * @param response servlet response
+	 * @throws ServletException if a servlet-specific error occurs
+	 * @throws IOException if an I/O error occurs
 	 */
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
+		String repeatPassword = request.getParameter("repeatPassword");	// ensure the password is correct - 2nd field for a pass
 		
-		// ensure the password is correct - 2nd field for a pass:
-		String repeatPassword = request.getParameter("repeatPassword");
-
-		// get the user to put their real names when registering -- NOT YET IMPLEMENTED
 		String firstName = request.getParameter("firstName");
-		String lastName = request.getParameter("lastName");
-
+		
 		if (repeatPassword.equals(password)) {
 			
-			// if details are > 2 symbols each - OK:
+				// if details are > 2 symbols each - OK:
 			if (registrationError(username, password) == false) {
 
 				User us = new User();
 				us.setCluster(cluster);
-				// us.RegisterUser(username, password);
-				// response.sendRedirect("/Instagrim");
+					// us.RegisterUser(username, password);
+					// response.sendRedirect("/Instagrim");
 
-				boolean checkRegistration = us.RegisterUser(username, password);
+				boolean checkRegistration = us.RegisterUser(username, password, firstName);
 
 				if (checkRegistration == false) { // if the name is taken = fail
 					response.sendRedirect("errorUsernameTaken.jsp");
 				} else {	// if everything OK go back to the index
+					//us.RegisterUser(username, password, firstName, lastName, email);
 					response.sendRedirect("/Instagrim");
 				}
 			} else {	// if user/pass are too short display an error
