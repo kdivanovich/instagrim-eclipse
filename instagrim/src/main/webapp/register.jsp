@@ -21,7 +21,7 @@
         
         <nav>
             <ul>
-                
+                <li><a href="login.jsp">Login</a></li>
                 <li><a href="/Instagrim/Images/majed">Sample Images</a></li>
             </ul>
         </nav>

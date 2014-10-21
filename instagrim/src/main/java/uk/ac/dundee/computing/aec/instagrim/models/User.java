@@ -144,6 +144,50 @@ public class User {
                    }
            }   
        return firstName ;  
-       }          
+       }    
+       
+    // the method that pulls the Last Name from the database
+       public String getLastName(String username){
+    	   String lastName = "no name found";
+    	   Session session = cluster.connect("instagrim");
+           PreparedStatement ps = session.prepare("select last_name from userprofiles where login =?");
+           ResultSet rs = null;
+           BoundStatement boundStatement = new BoundStatement(ps);
+           rs = session.execute( // this is where the query is executed
+                   boundStatement.bind(username)); // here you are binding the 'boundStatement'                           
+           if (rs.isExhausted()) {
+               System.out.println("No last name found");
+               return "";
+           } else {
+               for (Row row : rs) {                  
+                   lastName = row.getString("last_name");               
+                   }
+           }   
+       return lastName ;  
+       }  
+     
+       
+       
+     
+    // the method that pulls the email from the database
+       public String getEmail(String username){
+    	   String email = "no email found";
+    	   Session session = cluster.connect("instagrim");
+           PreparedStatement ps = session.prepare("select email from userprofiles where login =?");
+           ResultSet rs = null;
+           BoundStatement boundStatement = new BoundStatement(ps);
+           rs = session.execute( // this is where the query is executed
+                   boundStatement.bind(username)); // here you are binding the 'boundStatement'                           
+           if (rs.isExhausted()) {
+               System.out.println("No last name found");
+               return "";
+           } else {
+               for (Row row : rs) {                  
+                   email = row.getString("email");               
+                   }
+           }   
+       return email ;  
+       } 
+       
            
 }
