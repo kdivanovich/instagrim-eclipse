@@ -34,7 +34,11 @@
                                     
 				<IMG HEIGHT=50 WIDTH=50 SRC="/Instagrim/Image/554b7710-525e-11e4-a3b7-6894234415aa"></A>
 				<h3><% out.println(lg.getUsername()); %></h3>
+				
+				<% String firstName = lg.getFirstName(); 	// Have a "Hello" message if the user provided their name
+				if (firstName.length() > 0 ) { %>
 				<div align="center"> Hello, <% out.println(lg.getFirstName()); %></div>
+				<% } %>
                
                 <li><a href="/Instagrim/profile.jsp">Profile</a></li>
                 <li><a href="upload.jsp">Upload</a></li>
