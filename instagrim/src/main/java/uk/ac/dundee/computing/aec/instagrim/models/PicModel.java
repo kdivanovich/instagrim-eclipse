@@ -126,7 +126,7 @@ public class PicModel {
         return pad(img, 2);
     }
     
-   public static BufferedImage createProcessed(BufferedImage img) {
+   public static BufferedImage createProcessed(BufferedImage img) {			// what does this even do?!?!?
         int Width=img.getWidth()-1;
         img = resize(img, Method.SPEED, Width, OP_ANTIALIAS, OP_GRAYSCALE);
         return pad(img, 4);
@@ -138,9 +138,8 @@ public class PicModel {
         PreparedStatement ps = session.prepare("select picid from userpiclist where user =?");
         ResultSet rs = null;
         BoundStatement boundStatement = new BoundStatement(ps);
-        rs = session.execute( // this is where the query is executed
-                boundStatement.bind( // here you are binding the 'boundStatement'
-                        User));
+        rs = session.execute(boundStatement.bind(User)); // query executed,here you are binding the 'boundStatement'
+        
         if (rs.isExhausted()) {
             System.out.println("No Images returned");
             return null;

@@ -51,12 +51,9 @@ public final class Keyspaces {
                     + "  );";
             Session session = c.connect();
             try {
-                PreparedStatement statement = session
-                        .prepare(createkeyspace);
-                BoundStatement boundStatement = new BoundStatement(
-                        statement);
-                ResultSet rs = session
-                        .execute(boundStatement);
+                PreparedStatement statement = session.prepare(createkeyspace);
+                BoundStatement boundStatement = new BoundStatement(statement);
+                ResultSet rs = session.execute(boundStatement);
                 System.out.println("created instagrim ");
             } catch (Exception et) {
                 System.out.println("Can't create instagrim " + et);

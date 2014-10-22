@@ -91,6 +91,7 @@ public class Image extends HttpServlet {
         }
     }
 
+    
     private void DisplayImageList(String User, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PicModel tm = new PicModel();
         tm.setCluster(cluster);
@@ -98,8 +99,8 @@ public class Image extends HttpServlet {
         RequestDispatcher rd = request.getRequestDispatcher("/UsersPics.jsp");
         request.setAttribute("Pics", lsPics);
         rd.forward(request, response);
-
     }
+    
 
     private void DisplayImage(int type,String Image, HttpServletResponse response) throws ServletException, IOException {
         PicModel tm = new PicModel();
@@ -121,6 +122,7 @@ public class Image extends HttpServlet {
         }
         out.close();
     }
+    
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         for (Part part : request.getParts()) {
@@ -150,8 +152,8 @@ public class Image extends HttpServlet {
             RequestDispatcher rd = request.getRequestDispatcher("/upload.jsp");
              rd.forward(request, response);
         }
-
     }
+    
 
     private void error(String mess, HttpServletResponse response) throws ServletException, IOException {
 
