@@ -88,14 +88,14 @@ public class User {
     //================================================================================================================
     // Update user's details -- a copy of the Register User 
     
-    public void UpdateUserDetails(String username, String firstName ){
+    public void UpdateUserDetails(String username, String firstName, String lastName, String email ){
        
         Session session = cluster.connect("instagrim");    
-        PreparedStatement psFirstNameDelete = session.prepare("update userprofiles set first_name=? where login=? ");
+        PreparedStatement psFirstNameDelete = session.prepare
+        		("update userprofiles set first_name=?, last_name=?, email=? where login=? ");
         BoundStatement boundStatementFirstNameDelete = new BoundStatement(psFirstNameDelete);
         
-        session.execute(boundStatementFirstNameDelete.bind(firstName, username ));  
-        	//session.execute(boundStatementUpdate.bind(username, firstName));        
+        session.execute(boundStatementFirstNameDelete.bind(firstName, lastName, email, username ));  
         
     }
     

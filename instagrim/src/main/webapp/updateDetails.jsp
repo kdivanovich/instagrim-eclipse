@@ -32,10 +32,11 @@
 	
 
 	<form method="POST" action="UpdateInfo">
-		Username: <input type="text" name="username" value=<%= lg.getUsername() %>>> 
-		First name: <input type="text" name="firstName"> 
-																
-		<input type="submit"	value="Submit change">
+		Username: <input type="text" name="username" value=<%= lg.getUsername() %>>  </br>
+		First name: <input type="text" name="firstName">  </br>
+		Last name: <input type="text" name="lastName">  </br>
+		Email: <input type="text" name="email"> 		</br>													
+		<input type="submit"	value="Submit change"> 	</br>
 	</form>
 	
 	
