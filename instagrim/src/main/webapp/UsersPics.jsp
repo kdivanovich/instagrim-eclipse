@@ -49,14 +49,17 @@
                 */
             for (int i =0; i<lsPics.size(); i++ ){	// my code, replicates Andy's code above
              	Pic p = lsPics.get(i);
-                
-
-        %>
+        %>        
+        
         <!-- deleted a "<br/>" at the end of the previous line, the Break made the pics display in a column-->
         
-        <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a><%
+        <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a>
+                        
+		<form action="/Instagrim/Delete/<%=p.getSUUID() %>">
+    		<input type="submit" value="Delete">
+		</form>
         
-
+        <%
             }
             }
         %>

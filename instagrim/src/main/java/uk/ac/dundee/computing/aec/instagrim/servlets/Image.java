@@ -1,6 +1,7 @@
 package uk.ac.dundee.computing.aec.instagrim.servlets;
 
 import com.datastax.driver.core.Cluster;
+
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -8,6 +9,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.UUID;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -18,6 +21,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+
+import java.util.logging.*;	// needs utils for the pic deletion 
 
 import uk.ac.dundee.computing.aec.instagrim.lib.CassandraHosts;
 import uk.ac.dundee.computing.aec.instagrim.lib.Convertors;
@@ -33,7 +38,10 @@ import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
     "/Image/*",
     "/Thumb/*",
     "/Images",
-    "/Images/*"
+    "/Images/*",
+    "/Delete",
+    "/Delete/",
+    "/Delete/*",
 })
 @MultipartConfig
 
@@ -51,9 +59,10 @@ public class Image extends HttpServlet {
     public Image() {
         super();
         // TODO Auto-generated constructor stub
-        CommandsMap.put("Image",  1);
-        CommandsMap.put("Images", 2);
-        CommandsMap.put("Thumb",  3);
+        CommandsMap.put("Image",   1);
+        CommandsMap.put("Images",  2);
+        CommandsMap.put("Thumb",   3);
+        CommandsMap.put("Delete",  4);
 
     }
 
@@ -73,7 +82,7 @@ public class Image extends HttpServlet {
         try {
             command = (Integer) CommandsMap.get(args[1]);
         } catch (Exception et) {
-            error("Bad Operator", response);
+            error("Bad Operator", response);	// added a request
             return;
         }
         switch (command) {
@@ -86,6 +95,8 @@ public class Image extends HttpServlet {
             case 3:
                 DisplayImage(Convertors.DISPLAY_THUMB,args[2],  response);
                 break;
+            case 4: 
+            	DeleteImage(args[2], response, request);
             default:
                 error("Bad Operator", response);
         }
@@ -153,6 +164,28 @@ public class Image extends HttpServlet {
              rd.forward(request, response);
         }
     }
+    
+    
+    private void DeleteImage(String picID, HttpServletResponse response, HttpServletRequest request) throws ServletException, IOException {
+    	PicModel tm = new PicModel();
+        tm.setCluster(cluster);
+        
+        HttpSession session = request.getSession();
+        LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
+        String currentUser = lg.getUsername();
+        String image_deleted = tm.deletePic(currentUser, UUID.fromString(picID));
+        
+        if (!image_deleted.equals("success")) {
+        	error("No such picture exists. " + image_deleted, response);
+        	return;
+        } 
+        else {
+        	request.setAttribute("output message",  "Your picture has been deleted.");
+        	RequestDispatcher view = request.getRequestDispatcher("index.jsp");
+        	view.forward(request,  response);
+        }
+    }
+    
     
 
     private void error(String mess, HttpServletResponse response) throws ServletException, IOException {
