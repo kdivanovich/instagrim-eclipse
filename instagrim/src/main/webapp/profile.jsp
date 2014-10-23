@@ -3,6 +3,8 @@
 <%@page import="java.util.*"%>
 <%@ page import="uk.ac.dundee.computing.aec.instagrim.stores.*" %>
 <%@ page import="uk.ac.dundee.computing.aec.instagrim.models.*" %>
+<%@ page import="uk.ac.dundee.computing.aec.instagrim.lib.CassandraHosts"%>
+<%@ page import="com.datastax.driver.core.Cluster"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -21,14 +23,17 @@
      
      <%  LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
      
-     /* 
-     // update the info on the fly
+     // Update the page right away:
      String user = lg.getUsername();
-     User us = new User();
+     User us = new User();	 
+     Cluster cluster = null;           
+     cluster = CassandraHosts.getCluster();
+     us.setCluster(cluster);
+     
      lg.setFirstName(us.getFirstName(user));
      lg.setLastName(us.getLastName(user));
      lg.setEmail(us.getEmail(user));
-     */
+     
      
      %>
      Username:   <% out.print(lg.getUsername()); %> </br>

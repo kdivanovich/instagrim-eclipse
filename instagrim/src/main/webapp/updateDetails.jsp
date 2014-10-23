@@ -33,9 +33,9 @@
 
 	<form method="POST" action="UpdateInfo">
 		Username: <input type="text" name="username" value=<%= lg.getUsername() %>>  </br>
-		First name: <input type="text" name="firstName">  </br>
-		Last name: <input type="text" name="lastName">  </br>
-		Email: <input type="text" name="email"> 		</br>													
+		First name: <input type="text" name="firstName" value=<%=lg.getFirstName() %>>  </br>
+		Last name: <input type="text" name="lastName" value=<%=lg.getLastName() %> >  </br>
+		Email: <input type="text" name="email" value=<%=lg.getEmail() %> > 		</br>													
 		<input type="submit"	value="Submit change"> 	</br>
 	</form>
 	
