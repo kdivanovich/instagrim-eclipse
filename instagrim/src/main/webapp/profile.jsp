@@ -21,7 +21,12 @@
      Username:   <% out.print(lg.getUsername()); %> </br>
      First name: <% out.print(lg.getFirstName()); %> </br>
      Last name:  <% out.print(lg.getLastName()); %>	</br>     
-     Email:      <% out.print(lg.getEmail()); %> </br>     
+     Email:      <% out.print(lg.getEmail()); %> </br></br>        
+     
+     <form action="updateDetails.jsp">
+    		<input type="submit" value="Edit Details"> 
+		</form><br/>
+		
 
 </body>
 </html>

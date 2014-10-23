@@ -37,8 +37,7 @@
                     
                     <li>First name <input type="text" name="firstName"></li>
                     <li>Last name <input type="text" name="lastName"></li>
-                    <li>Email <input type="text" name="email"></li>
-                    
+                    <li>Email <input type="text" name="email"></li>                    
                 </ul>
                 <br/>
                 <input type="submit" value="Register"> 

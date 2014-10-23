@@ -44,9 +44,7 @@
                 <li><a href="upload.jsp">Upload</a></li>
                 <li><a href="/Instagrim/Images/<%=lg.getUsername()%>">Your Images</a></li>
                 <li><a href="/Instagrim/Logout">Logout</a></li> </br>
-                
-                <li><a href="updateInfo.jsp">Update Info</a></li>
-                               
+                                                              
                 
                     <%}
                             } else {
