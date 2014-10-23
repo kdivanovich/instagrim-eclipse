@@ -2,6 +2,8 @@
     pageEncoding="ISO-8859-1"%>
 <%@page import="java.util.*"%>
 <%@ page import="uk.ac.dundee.computing.aec.instagrim.stores.*" %>
+<%@ page import="uk.ac.dundee.computing.aec.instagrim.models.*" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -17,7 +19,18 @@
      
      <a href="/Instagrim"><b>Home</b></a></br></br>
      
-     <%  LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");%>
+     <%  LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
+     
+     /* 
+     // update the info on the fly
+     String user = lg.getUsername();
+     User us = new User();
+     lg.setFirstName(us.getFirstName(user));
+     lg.setLastName(us.getLastName(user));
+     lg.setEmail(us.getEmail(user));
+     */
+     
+     %>
      Username:   <% out.print(lg.getUsername()); %> </br>
      First name: <% out.print(lg.getFirstName()); %> </br>
      Last name:  <% out.print(lg.getLastName()); %>	</br>     

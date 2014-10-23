@@ -86,18 +86,13 @@ public class User {
     
     
     //================================================================================================================
-    // a copy of the Register User -- testing for first_name
+    // Update user's details -- a copy of the Register User 
     
     public void UpdateUserDetails(String username, String firstName ){
        
-        Session session = cluster.connect("instagrim");        
-        //String currentUser = username.toString();	// added so I can use it in the setting up the third PreparedStatement below
-        
-        PreparedStatement psFirstNameDelete = session.prepare("delete first_name from userprofiles where login=?");
-        	//PreparedStatement ps = session.prepare("insert into userprofiles (login,first_name) Values(<%=currentUser,?)");
-        
+        Session session = cluster.connect("instagrim");    
+        PreparedStatement psFirstNameDelete = session.prepare("update userprofiles set first_name=? where login=? ");
         BoundStatement boundStatementFirstNameDelete = new BoundStatement(psFirstNameDelete);
-        	//BoundStatement boundStatementUpdate = new BoundStatement(ps);
         
         session.execute(boundStatementFirstNameDelete.bind(firstName, username ));  
         	//session.execute(boundStatementUpdate.bind(username, firstName));        
