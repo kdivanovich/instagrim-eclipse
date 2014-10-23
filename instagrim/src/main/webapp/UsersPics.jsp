@@ -56,8 +56,8 @@
         <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a>
                         
 		<form action="/Instagrim/Delete/<%=p.getSUUID() %>">
-    		<input type="submit" value="Delete">
-		</form>
+    		<input type="submit" value="Delete"> 
+		</form><br/>
         
         <%
             }

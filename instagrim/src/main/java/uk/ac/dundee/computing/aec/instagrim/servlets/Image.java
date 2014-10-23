@@ -96,7 +96,7 @@ public class Image extends HttpServlet {
                 DisplayImage(Convertors.DISPLAY_THUMB,args[2],  response);
                 break;
             case 4: 
-            	DeleteImage(args[2], response, request);
+            	DeleteImage(args[2], request, response);
             default:
                 error("Bad Operator", response);
         }
@@ -166,7 +166,7 @@ public class Image extends HttpServlet {
     }
     
     
-    private void DeleteImage(String picID, HttpServletResponse response, HttpServletRequest request) throws ServletException, IOException {
+    private void DeleteImage(String picID, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	PicModel tm = new PicModel();
         tm.setCluster(cluster);
         
@@ -180,9 +180,7 @@ public class Image extends HttpServlet {
         	return;
         } 
         else {
-        	request.setAttribute("output message",  "Your picture has been deleted.");
-        	RequestDispatcher view = request.getRequestDispatcher("index.jsp");
-        	view.forward(request,  response);
+        	response.sendRedirect("/Instagrim/");        	
         }
     }
     
