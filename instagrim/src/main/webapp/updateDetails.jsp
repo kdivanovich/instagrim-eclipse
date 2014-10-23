@@ -32,12 +32,14 @@
 	
 
 	<form method="POST" action="UpdateInfo">
-		First name: <input type="text" name="firstName" value=<%=lg.getFirstName()%> 
+		First name: <input type="text" name="firstName" value=<%=lg.getUsername()%> 
 																placeholder="First Name">
+																
 		<input type="submit"	value="Submit change">
 	</form>
 	
 	
+	</br></br></br></br></br>	
 
 
 </body>

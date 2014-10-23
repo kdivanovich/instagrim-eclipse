@@ -49,8 +49,7 @@ public class User {
         	 * This object can then be used to efficiently execute this statement multiple times.
         	 */        
                 
-        PreparedStatement ps = session.prepare
-        		("insert into userprofiles (login,password,first_name,last_name,email) Values(?,?,?,?,?)");
+        PreparedStatement ps = session.prepare("insert into userprofiles (login,password,first_name,last_name,email) Values(?,?,?,?,?)");
         PreparedStatement psChecker = session.prepare("select login from userprofiles where login =?"); 	// a checker to prepare for pulling usr/pass from database
         	// prepare the query to put the first name:
         //PreparedStatement psFirstName = session.prepare("insert into userprofiles (login,first_name) Values('currentUser', ?)");
@@ -83,11 +82,30 @@ public class User {
                 boundStatement.bind(username,EncodedPassword,firstName,lastName,email)); // here you are binding the 'boundStatement'   
         }
         return true;
-    }
+    }     
+    
+    
+    //================================================================================================================
+    // a copy of the Register User -- testing for first_name
+    
+    public void UpdateUserDetails(String username, String firstName ){
+       
+        Session session = cluster.connect("instagrim");        
+        //String currentUser = username.toString();	// added so I can use it in the setting up the third PreparedStatement below
         
+        PreparedStatement psFirstNameDelete = session.prepare("delete first_name from userprofiles where login=?");
+        	//PreparedStatement ps = session.prepare("insert into userprofiles (login,first_name) Values(<%=currentUser,?)");
+        
+        BoundStatement boundStatementFirstNameDelete = new BoundStatement(psFirstNameDelete);
+        	//BoundStatement boundStatementUpdate = new BoundStatement(ps);
+        
+        session.execute(boundStatementFirstNameDelete.bind(firstName, username ));  
+        	//session.execute(boundStatementUpdate.bind(username, firstName));        
+        
+    }
     
+  //================================================================================================================
     
-    //================================================================================================================ 
     
     public boolean IsValidUser(String username, String Password){    	
     		// encoding the password:

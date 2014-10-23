@@ -169,7 +169,7 @@ public class Image extends HttpServlet {
     private void DeleteImage(String picID, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	PicModel tm = new PicModel();
         tm.setCluster(cluster);
-        
+                
         HttpSession session = request.getSession();
         LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
         String currentUser = lg.getUsername();
@@ -180,7 +180,7 @@ public class Image extends HttpServlet {
         	return;
         } 
         else {
-        	response.sendRedirect("/Instagrim/");        	
+        	response.sendRedirect("/Instagrim/Images/" + currentUser);        	
         }
     }
     
