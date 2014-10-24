@@ -18,9 +18,20 @@ public class LoggedIn {
     String first_name = null;
     String last_name = null;
     String email = null;
+    String picid = null;
     
     public void LogedIn(){        
-    }
+    }      
+    
+    
+    public void setPicid(String picid) {
+		this.picid = picid;
+	}
+	public String getPicid() {
+		return picid;
+	}
+	
+	
     
     public void setLastName(String lastName){
         this.last_name=lastName;
@@ -60,5 +71,7 @@ public class LoggedIn {
     public boolean getlogedin(){
         return logedin;
     }
+
+
 
 }

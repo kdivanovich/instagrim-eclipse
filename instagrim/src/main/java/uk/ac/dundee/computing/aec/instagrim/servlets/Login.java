@@ -55,6 +55,7 @@ public class Login extends HttpServlet {
 		String password = request.getParameter("password");
 		String first_name = request.getParameter("first_name"); // parse your first name from the dB
 		String last_name = request.getParameter("last_name");
+		String picid = request.getParameter("picid");
 		//String email = request.getParameter("email");
 
 		if (username.length() > 0 && password.length() > 0) {
@@ -71,6 +72,7 @@ public class Login extends HttpServlet {
 				lg.setFirstName(us.getFirstName(username)); // get the First Name attribute, then set first name
 				lg.setLastName(us.getLastName(username));
 				lg.setEmail(us.getEmail(username));
+				lg.setPicid(us.setPicid(username));
 				// request.setAttribute("LoggedIn", lg);
 
 				session.setAttribute("LoggedIn", lg);

@@ -35,10 +35,15 @@
                     
                 <a href="/Instagrim"><b>Home</b></a></br></br>
                                     
-				<IMG HEIGHT=50 WIDTH=50 SRC="/Instagrim/Image/554b7710-525e-11e4-a3b7-6894234415aa"></A>
+				<!--  <IMG HEIGHT=50 WIDTH=50 SRC="/Instagrim/Image/554b7710-525e-11e4-a3b7-6894234415aa"></A>  -->
 				<h3><% out.println(lg.getUsername()); %></h3>
 				
 				<% String firstName = lg.getFirstName(); 	// Have a "Hello" message if the user provided their name
+				%>
+				
+				
+				 
+				<% 
 				if (firstName.length() > 0 ) { 
 				
 					String user = lg.getUsername();
@@ -50,16 +55,16 @@
 				     lg.setFirstName(us.getFirstName(user));
 				
 				%>
+				
 				<div align="center"> Hello, <% out.println(lg.getFirstName()); %></div>
+				
 				<% } %>
-               
+               	
+               	<IMG HEIGHT=50 WIDTH=50 SRC="/Instagrim/Image/<%=lg.getPicid()%>" >
                 <li><a href="/Instagrim/Images/<%=lg.getUsername()%>">Your Images</a></li>
                 <li><a href="/Instagrim/profile.jsp">Profile</a></li>
                 <li><a href="upload.jsp">Upload</a></li>
                 <li><a href="/Instagrim/Logout">Logout</a></li> </br>
-                
-                <li><a href="/Instagrim/Logout">Upload Avatar</a></li> </br>
-                                                              
                 
                     <%}
                             } else {

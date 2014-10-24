@@ -95,12 +95,23 @@ public class User {
         		("update userprofiles set first_name=?, last_name=?, email=? where login=? ");
         BoundStatement boundStatementFirstNameDelete = new BoundStatement(psFirstNameDelete);
         
-        session.execute(boundStatementFirstNameDelete.bind(firstName, lastName, email, username ));  
-        
+        session.execute(boundStatementFirstNameDelete.bind(firstName, lastName, email, username ));          
     }
     
   //================================================================================================================
-    
+       
+	public void UpdateAvatar(String username, String picid) {
+		//  public void UpdateUserDetails(String username, String firstName, String lastName, String email ){
+       
+        Session session = cluster.connect("instagrim");    
+        PreparedStatement psFirstNameDelete = session.prepare
+        		("update userprofiles set picid=? where login=? ");
+        BoundStatement boundStatementFirstNameDelete = new BoundStatement(psFirstNameDelete);
+        
+        session.execute(boundStatementFirstNameDelete.bind(picid, username ));          		
+	} 
+	
+	//================================================================================================================
     
     public boolean IsValidUser(String username, String Password){    	
     		// encoding the password:
@@ -200,7 +211,30 @@ public class User {
                    }
            }   
        return email ;  
-       } 
+       }
+       
+       
+       
+
+	public String setPicid(String username) {
+		String picid = "no avatar found";
+ 	    Session session = cluster.connect("instagrim");
+        PreparedStatement ps = session.prepare("select picid from userprofiles where login =?");
+        ResultSet rs = null;
+        BoundStatement boundStatement = new BoundStatement(ps);
+        rs = session.execute( // this is where the query is executed
+                boundStatement.bind(username)); // here you are binding the 'boundStatement'                           
+        if (rs.isExhausted()) {
+            System.out.println("No last name found");
+            return "";
+        } else {
+            for (Row row : rs) {                  
+                picid = row.getString("picid");               
+                }
+        }   
+    return picid ;  
+	}
+
        
            
 }

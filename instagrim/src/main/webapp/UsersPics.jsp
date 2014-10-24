@@ -29,6 +29,7 @@
 				<h3><% out.println(lg.getUsername()); %></h3>
                 <li class="nav"><a href="/Instagrim/upload.jsp">Upload</a></li>
                 <li class="nav"><a href="/Instagrim/Images/majed">Sample Images</a></li>
+                <li><a href="/Instagrim/Logout">Logout</a></li> </br>
             </ul>
         </nav>
  
@@ -58,6 +59,15 @@
 		<form action="/Instagrim/Delete/<%=p.getSUUID() %>">
     		<input type="submit" value="Delete"> 
 		</form><br/>
+		
+		
+		
+		<form method="POST" action="/Instagrim/UpdateAvatar">
+			Username: <input type="text" name="username" value="<%=lg.getUsername() %>">  </br>
+			Pic ID: <input type="text" name="picid" value="<%=p.getSUUID() %>" >  </br>														
+		<input type="submit"	value="Select avatar"> 	</br>
+		</form>
+		<br>
         
         <%
             }
