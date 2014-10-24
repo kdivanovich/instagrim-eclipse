@@ -7,6 +7,9 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="uk.ac.dundee.computing.aec.instagrim.stores.*" %>
+<%@ page import="uk.ac.dundee.computing.aec.instagrim.models.*" %>
+<%@ page import="uk.ac.dundee.computing.aec.instagrim.lib.CassandraHosts"%>
+<%@ page import="com.datastax.driver.core.Cluster"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -36,7 +39,17 @@
 				<h3><% out.println(lg.getUsername()); %></h3>
 				
 				<% String firstName = lg.getFirstName(); 	// Have a "Hello" message if the user provided their name
-				if (firstName.length() > 0 ) { %>
+				if (firstName.length() > 0 ) { 
+				
+					String user = lg.getUsername();
+				     User us = new User();	 
+				     Cluster cluster = null;           
+				     cluster = CassandraHosts.getCluster();
+				     us.setCluster(cluster);
+				     
+				     lg.setFirstName(us.getFirstName(user));
+				
+				%>
 				<div align="center"> Hello, <% out.println(lg.getFirstName()); %></div>
 				<% } %>
                

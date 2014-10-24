@@ -32,10 +32,9 @@
      
      lg.setFirstName(us.getFirstName(user));
      lg.setLastName(us.getLastName(user));
-     lg.setEmail(us.getEmail(user));
-     
-     
+     lg.setEmail(us.getEmail(user));   
      %>
+     
      Username:   <% out.print(lg.getUsername()); %> </br>
      First name: <% out.print(lg.getFirstName()); %> </br>
      Last name:  <% out.print(lg.getLastName()); %>	</br>     
