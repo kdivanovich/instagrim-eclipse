@@ -37,8 +37,8 @@
                     %>
                     
                 <a href="/Instagrim"><b>Home</b></a></br></br>
-                                    
-				<!--  <IMG HEIGHT=50 WIDTH=50 SRC="/Instagrim/Image/554b7710-525e-11e4-a3b7-6894234415aa"></A>  -->
+                              
+				
 				<h3><% out.println(lg.getUsername()); %></h3>
 				
 				<% String firstName = lg.getFirstName(); 	// Have a "Hello" message if the user provided their name

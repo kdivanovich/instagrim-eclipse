@@ -6,7 +6,10 @@
 
 <%@page import="java.util.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import="uk.ac.dundee.computing.aec.instagrim.stores.*" %>
+<%@page import="uk.ac.dundee.computing.aec.instagrim.stores.*" %>
+<%@ page import="uk.ac.dundee.computing.aec.instagrim.models.*" %>
+<%@ page import="uk.ac.dundee.computing.aec.instagrim.lib.CassandraHosts"%>
+<%@ page import="com.datastax.driver.core.Cluster"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -25,7 +28,20 @@
         <nav>
             <ul>
             	<a href="/Instagrim"><b>Home</b></a></br></br>
-            	<IMG HEIGHT=50 WIDTH=50 SRC="/Instagrim/Image/554b7710-525e-11e4-a3b7-6894234415aa"></A>
+				
+				<% 
+				 String user = lg.getUsername();
+			     User us = new User();	 
+			     Cluster cluster = null;           
+			     cluster = CassandraHosts.getCluster();
+			     us.setCluster(cluster);
+			     				     
+			     lg.setFirstName(us.getFirstName(user));
+			     lg.setPicid(us.getPicid(user));				
+				%>
+				<IMG HEIGHT=50 WIDTH=50 SRC="/Instagrim/Image/<%=lg.getPicid()%>" >
+				
+
 				<h3><% out.println(lg.getUsername()); %></h3>
                 <li class="nav"><a href="/Instagrim/upload.jsp">Upload</a></li>
                 <li class="nav"><a href="/Instagrim/Images/majed">Sample Images</a></li>
@@ -42,12 +58,13 @@
         <p>No Pictures found</p>
         <%
         } else {
-        	/*
+        	/* andy's original loop
             Iterator<Pic> iterator;
             iterator = lsPics.iterator();
             while (iterator.hasNext()) {
-                Pic p = (Pic) iterator.next();
-                */
+            Pic p = (Pic) iterator.next();
+            */
+            
             for (int i =0; i<lsPics.size(); i++ ){	// my code, replicates Andy's code above
              	Pic p = lsPics.get(i);
         %>        
@@ -58,16 +75,14 @@
                         
 		<form action="/Instagrim/Delete/<%=p.getSUUID() %>">
     		<input type="submit" value="Delete"> 
-		</form><br/>
-		
-		
-		
+		</form> 
+						
 		<form method="POST" action="/Instagrim/UpdateAvatar">
-			Username: <input type="text" name="username" value="<%=lg.getUsername() %>">  </br>
-			Pic ID: <input type="text" name="picid" value="<%=p.getSUUID() %>" >  </br>														
+			<input type="text" name="username" value="<%=lg.getUsername() %>" hidden>  </br>
+			<input type="text" name="picid" value="<%=p.getSUUID() %>" hidden >  </br>														
 		<input type="submit"	value="Select avatar"> 	</br>
 		</form>
-		<br>
+		<br><br>
         
         <%
             }

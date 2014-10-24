@@ -3,9 +3,13 @@
     Created on : Sep 22, 2014, 6:31:50 PM
     Author     : Administrator
 --%>
-
-<%@page import="uk.ac.dundee.computing.aec.instagrim.stores.*" %>
+<%@page import="java.util.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="uk.ac.dundee.computing.aec.instagrim.stores.*" %>
+<%@ page import="uk.ac.dundee.computing.aec.instagrim.models.*" %>
+<%@ page import="uk.ac.dundee.computing.aec.instagrim.lib.CassandraHosts"%>
+<%@ page import="com.datastax.driver.core.Cluster"%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -21,7 +25,19 @@
             <ul>  
             	<a href="/Instagrim"><b>Home</b></a></br></br>
             	<%  LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");%>
-           		<IMG HEIGHT=50 WIDTH=50 SRC="/Instagrim/Image/554b7710-525e-11e4-a3b7-6894234415aa"></A>
+
+				<% 
+				 String user = lg.getUsername();
+			     User us = new User();	 
+			     Cluster cluster = null;           
+			     cluster = CassandraHosts.getCluster();
+			     us.setCluster(cluster);
+			     				     
+			     lg.setFirstName(us.getFirstName(user));
+			     lg.setPicid(us.getPicid(user));				
+				%>
+				<IMG HEIGHT=50 WIDTH=50 SRC="/Instagrim/Image/<%=lg.getPicid()%>" >
+
 				<h3><% out.println(lg.getUsername()); %></h3>
 				
                 <li class="nav"><a href="upload.jsp">Upload</a></li>
