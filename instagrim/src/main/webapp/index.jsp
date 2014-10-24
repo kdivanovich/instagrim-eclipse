@@ -10,6 +10,9 @@
 <%@ page import="uk.ac.dundee.computing.aec.instagrim.models.*" %>
 <%@ page import="uk.ac.dundee.computing.aec.instagrim.lib.CassandraHosts"%>
 <%@ page import="com.datastax.driver.core.Cluster"%>
+<%@page import="java.util.*"%>
+<%@ page import="com.datastax.driver.core.Cluster"%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -44,15 +47,17 @@
 				
 				 
 				<% 
+				 String user = lg.getUsername();
+			     User us = new User();	 
+			     Cluster cluster = null;           
+			     cluster = CassandraHosts.getCluster();
+			     us.setCluster(cluster);
+			     				     
+			     lg.setFirstName(us.getFirstName(user));
+			     lg.setPicid(us.getPicid(user));
 				if (firstName.length() > 0 ) { 
 				
-					String user = lg.getUsername();
-				     User us = new User();	 
-				     Cluster cluster = null;           
-				     cluster = CassandraHosts.getCluster();
-				     us.setCluster(cluster);
-				     
-				     lg.setFirstName(us.getFirstName(user));
+					 
 				
 				%>
 				

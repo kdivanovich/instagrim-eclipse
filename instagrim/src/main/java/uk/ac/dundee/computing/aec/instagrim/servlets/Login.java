@@ -72,7 +72,7 @@ public class Login extends HttpServlet {
 				lg.setFirstName(us.getFirstName(username)); // get the First Name attribute, then set first name
 				lg.setLastName(us.getLastName(username));
 				lg.setEmail(us.getEmail(username));
-				lg.setPicid(us.setPicid(username));
+				lg.setPicid(us.getPicid(username));
 				// request.setAttribute("LoggedIn", lg);
 
 				session.setAttribute("LoggedIn", lg);

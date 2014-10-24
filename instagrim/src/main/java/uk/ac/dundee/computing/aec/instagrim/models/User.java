@@ -216,7 +216,7 @@ public class User {
        
        
 
-	public String setPicid(String username) {
+	public String getPicid(String username) {
 		String picid = "no avatar found";
  	    Session session = cluster.connect("instagrim");
         PreparedStatement ps = session.prepare("select picid from userprofiles where login =?");
