@@ -20,10 +20,11 @@
         </header>
         <nav>
             <ul>
+            	<li class="footer"><a href="/Instagrim">Home</a></li><br>
                 <li><a href="register.jsp">Register</a></li>
                 <li><a href="/Instagrim/Images/majed">Sample Images</a></li>
             </ul>
-        </nav>
+        
        
         <article>
             <h3>Login</h3>
@@ -36,10 +37,13 @@
                 <input type="submit" value="Login"> 
             </form>
 
-        </article>
+        </article>        
+        </nav>
+        
         <footer>
-            <ul>
-                <li class="footer"><a href="/Instagrim">Home</a></li>
+             <ul>                
+                <li>&COPY; Konstantin I.</li>
+                <li>Dundee, 2014</li>
             </ul>
         </footer>
     </body>
