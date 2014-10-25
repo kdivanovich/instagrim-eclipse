@@ -101,10 +101,10 @@ public class User {
         String currentUser = username.toString();	// added so I can use it in the setting up the third PreparedStatement below
               
         
-        PreparedStatement ps = session.prepare("insert into comments (commentid,user,comment,picid) value (?,?,?,?)");        	       
+        PreparedStatement ps = session.prepare("insert into comments (commentid,login,comment,picid) values (?,?,?,?)");        	       
         BoundStatement boundStatement = new BoundStatement(ps);
        
-        session.execute(boundStatement.bind(commentid,username,picid,comment));
+        session.execute(boundStatement.bind(commentid,username,comment,picid));
         //return true;       
     }     
     
