@@ -38,6 +38,7 @@ import uk.ac.dundee.computing.aec.instagrim.lib.*;
 import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
 //import uk.ac.dundee.computing.aec.stores.TweetStore;
 import java.util.UUID; // needed for the pic delete func
+import java.util.LinkedList;
 
 public class PicModel {
 
@@ -185,8 +186,8 @@ public class PicModel {
 	//========================================================================================================================
 		// the following method is slightly re-worked for the majed user = all pics
 	
-	public java.util.LinkedList<Pic> getPicsForUser(String User) {
-		java.util.LinkedList<Pic> Pics = new java.util.LinkedList<>();
+	public LinkedList<Pic> getPicsForUser(String User) {
+		LinkedList<Pic> Pics = new LinkedList<>();
 		Session session = cluster.connect("instagrim");
 		// PreparedStatement ps = session.prepare("select picid from userpiclist where user =?");	// removing to specify if all pics(user Majed) are specified
 		PreparedStatement psAllPics;
@@ -223,12 +224,38 @@ public class PicModel {
 		}
 		return Pics;
 	}
+	
+
+	//========================================================================================================================
+			// method to display the comments
+		
+		public LinkedList<String> getCommentsForPic(String picid) {
+			LinkedList<String> Comments = new LinkedList<>();
+			Session session = cluster.connect("instagrim");	
+			ResultSet rs = null;		
+			
+			PreparedStatement psComments = session.prepare("select comment from comments");								
+			BoundStatement boundStatement = new BoundStatement(psComments);
+			rs = session.execute(boundStatement.bind()); 			
+			
+			if (rs.isExhausted()) {
+				System.out.println("No comments yet.");
+				return null;
+			} else {
+				for (Row row : rs) {								
+					Comments.add(row.getString("user")+": "+row.getString("comment"));
+				}
+			}
+			return Comments;
+		}
+		
+	
 	//========================================================================================================================
 		//this one is my work
 	
 		// method to make a query that returns all pics in the dB, almost a copy of the above method
-	public java.util.LinkedList<Pic> getAllPics() {		
-        java.util.LinkedList<Pic> Pics = new java.util.LinkedList<>();
+	public LinkedList<Pic> getAllPics() {		
+        LinkedList<Pic> Pics = new LinkedList<>();
         Session session = cluster.connect("instagrim");
         PreparedStatement ps = session.prepare("select picid from pics");
         ResultSet rs = null;

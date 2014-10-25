@@ -45,7 +45,7 @@ public class Comment extends HttpServlet {
         us.setCluster(cluster);
         us.Comment(username, picid, comment);
         
-        response.sendRedirect("/Instagrim/index.jsp");
+        response.sendRedirect("/Instagrim/Images/"+ username);
 	}
 
 	

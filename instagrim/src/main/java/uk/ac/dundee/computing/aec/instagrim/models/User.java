@@ -86,29 +86,23 @@ public class User {
     
     
     //================================================================================================================
+    
     public void Comment(String username, String picid, String comment ){        
         Session session = cluster.connect("instagrim");
         
         Convertors picConvertor = new Convertors();
         java.util.UUID commentid = picConvertor.getTimeUUID();
-        
-        /*
-        String username = "stan";
-        String picid = "stan";
-        String comment = "stan";
-        */
-        
+               
         String currentUser = username.toString();	// added so I can use it in the setting up the third PreparedStatement below
-              
         
         PreparedStatement ps = session.prepare("insert into comments (commentid,login,comment,picid) values (?,?,?,?)");        	       
         BoundStatement boundStatement = new BoundStatement(ps);
        
         session.execute(boundStatement.bind(commentid,username,comment,picid));
-        //return true;       
     }     
     
-    //================================================================================================================    
+    //================================================================================================================
+    
   	public void UpdateAvatar(String username, String picid) {
   		//  public void UpdateUserDetails(String username, String firstName, String lastName, String email ){
          
