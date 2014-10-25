@@ -128,7 +128,7 @@ public class PicModel {
 				return "success";
 			}
 			session.close();
-			return "owner != user";
+			return "Error: the owner is not the current user";
 		} 
 		catch (Exception exception) {
 			return exception.getMessage();
@@ -176,23 +176,22 @@ public class PicModel {
 		return pad(img, 2);
 	}
 
-	public static BufferedImage createProcessed(BufferedImage img) { // what
-																		// does
-																		// this
-																		// even
-																		// do?!?!?
+	public static BufferedImage createProcessed(BufferedImage img) { 
 		int Width = img.getWidth() - 1;
 		img = resize(img, Method.SPEED, Width, OP_ANTIALIAS, OP_GRAYSCALE);
 		return pad(img, 4);
 	}
-
+	
+	//========================================================================================================================
+		// the following method is slightly re-worked for the majed user = all pics
+	
 	public java.util.LinkedList<Pic> getPicsForUser(String User) {
 		java.util.LinkedList<Pic> Pics = new java.util.LinkedList<>();
 		Session session = cluster.connect("instagrim");
 		// PreparedStatement ps = session.prepare("select picid from userpiclist where user =?");	// removing to specify if all pics(user Majed) are specified
 		PreparedStatement psAllPics;
 		
-			// filer if the user is the dummy one
+			// filter if the user is the dummy one
 		if ("majed".equals(User)){
 			psAllPics = session.prepare("select picid from userpiclist");			
 		}
@@ -211,7 +210,7 @@ public class PicModel {
 		}
 		
 		if (rs.isExhausted()) {
-			System.out.println("No Images returned");
+			System.out.println("No images returned");
 			return null;
 		} else {
 			for (Row row : rs) {
@@ -220,11 +219,13 @@ public class PicModel {
 				System.out.println("UUID" + UUID.toString());
 				pic.setUUID(UUID);				
 				Pics.add(pic);
-
 			}
 		}
 		return Pics;
 	}
+	//========================================================================================================================
+		//this one is my work
+	
 		// method to make a query that returns all pics in the dB, almost a copy of the above method
 	public java.util.LinkedList<Pic> getAllPics() {		
         java.util.LinkedList<Pic> Pics = new java.util.LinkedList<>();
@@ -250,6 +251,36 @@ public class PicModel {
         }
         return Pics;
     }
+	
+	//========================================================================================================================
+		// get the comments for each pic
+	/*
+	public java.util.LinkedList<Pic> getCommentsForUser(String User, String) {
+		 java.util.LinkedList<Pic> Pics = new java.util.LinkedList<>();
+	        Session session = cluster.connect("instagrim");
+	        PreparedStatement ps = session.prepare("select login,picid,comment,date from comments");
+	        ResultSet rs = null;
+	        BoundStatement boundStatement = new BoundStatement(ps);
+	        rs = session.execute( boundStatement.bind(User, picid, comment, date));
+	        if (rs.isExhausted()) {
+	            System.out.println("No comments found.");
+	            return null;
+	        } else {
+	            for (Row row : rs) {
+	                Pic pic = new Pic();
+	                java.util.UUID UUID = row.getUUID("picid");
+	                System.out.println("UUID" + UUID.toString());
+	                pic.setUUID(UUID);
+	                Pics.add(pic);
+
+	            }
+	        }
+	        return Pics;
+	}
+	*/
+	
+	
+	//========================================================================================================================
 	
 
 	public Pic getPic(int image_type, java.util.UUID picid) {

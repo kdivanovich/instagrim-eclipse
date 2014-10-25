@@ -44,27 +44,15 @@ public class UpdateAvatar extends HttpServlet {
 		us.setCluster(cluster);
 		
 		us.UpdateAvatar(username,picid );
-		response.sendRedirect("/Instagrim/index.jsp");
-		
+		response.sendRedirect("/Instagrim/index.jsp");		
 	}
 
-	/**
-	 * Returns a short description of the servlet.
-	 * 
-	 * @return a String containing servlet description
-	 */
+
 	@Override
 	public String getServletInfo() {
 		return "Short description";
 	}// </editor-fold>
 
-	// OBSOLETE UNLESS CHANGED ABOVE TO USE IT
-	// username and password cannot be less than 2 symbols each
-	public boolean registrationError(String user, String pass) {
-		if (user.length() < 2 || pass.length() < 2) {
-			return true; // there is an error while registering
-		} else
-			return false; // registration details are fine
-	}
+	
 
 }

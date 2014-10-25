@@ -16,7 +16,7 @@ import com.datastax.driver.core.Session;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 
-import uk.ac.dundee.computing.aec.instagrim.lib.AeSimpleSHA1;
+import uk.ac.dundee.computing.aec.instagrim.lib.*;
 import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
 //import uk.ac.dundee.computing.aec.instagrim.stores.UsersStore;
 
@@ -86,6 +86,42 @@ public class User {
     
     
     //================================================================================================================
+    public void Comment(String username, String picid, String comment ){        
+        Session session = cluster.connect("instagrim");
+        
+        Convertors picConvertor = new Convertors();
+        java.util.UUID commentid = picConvertor.getTimeUUID();
+        
+        /*
+        String username = "stan";
+        String picid = "stan";
+        String comment = "stan";
+        */
+        
+        String currentUser = username.toString();	// added so I can use it in the setting up the third PreparedStatement below
+              
+        
+        PreparedStatement ps = session.prepare("insert into comments (commentid,user,comment,picid) value (?,?,?,?)");        	       
+        BoundStatement boundStatement = new BoundStatement(ps);
+       
+        session.execute(boundStatement.bind(commentid,username,picid,comment));
+        //return true;       
+    }     
+    
+    //================================================================================================================    
+  	public void UpdateAvatar(String username, String picid) {
+  		//  public void UpdateUserDetails(String username, String firstName, String lastName, String email ){
+         
+          Session session = cluster.connect("instagrim");    
+          PreparedStatement psFirstNameDelete = session.prepare
+          		("update userprofiles set picid=? where login=? ");
+          BoundStatement boundStatementFirstNameDelete = new BoundStatement(psFirstNameDelete);
+          
+          session.execute(boundStatementFirstNameDelete.bind(picid, username ));          		
+  	} 
+    
+    //================================================================================================================
+    
     // Update user's details -- a copy of the Register User 
     
     public void UpdateUserDetails(String username, String firstName, String lastName, String email ){
@@ -95,21 +131,10 @@ public class User {
         		("update userprofiles set first_name=?, last_name=?, email=? where login=? ");
         BoundStatement boundStatementFirstNameDelete = new BoundStatement(psFirstNameDelete);
         
-        session.execute(boundStatementFirstNameDelete.bind(firstName, lastName, email, username ));          
+        session.execute(boundStatementFirstNameDelete.bind(firstName, lastName, email, username));          
     }
     
-  //================================================================================================================
-       
-	public void UpdateAvatar(String username, String picid) {
-		//  public void UpdateUserDetails(String username, String firstName, String lastName, String email ){
-       
-        Session session = cluster.connect("instagrim");    
-        PreparedStatement psFirstNameDelete = session.prepare
-        		("update userprofiles set picid=? where login=? ");
-        BoundStatement boundStatementFirstNameDelete = new BoundStatement(psFirstNameDelete);
-        
-        session.execute(boundStatementFirstNameDelete.bind(picid, username ));          		
-	} 
+  
 	
 	//================================================================================================================
     

@@ -63,7 +63,25 @@
              	Pic p = lsPics.get(i);
         %>        
         
-        <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a>
+        <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a><br>
+        
+        
+        
+        
+        
+        
+        <form method="POST" action="/Instagrim/Comment">
+        		<input type="text" name="comment" placeholder="your comment">
+        		<input type="text" name="username" value="<%=lg.getUsername() %>" hidden>  
+				<input type="text" name="picid" value="<%=p.getSUUID() %>" hidden >  			
+        	<input type="submit"	value="Comment"> <br><br>	
+        </form>
+		
+		
+	
+	
+	
+	
 		                        
 		<form action="/Instagrim/Delete/<%=p.getSUUID() %>">
     		<input type="submit" value="Delete"> 
