@@ -189,15 +189,27 @@ public class PicModel {
 	public java.util.LinkedList<Pic> getPicsForUser(String User) {
 		java.util.LinkedList<Pic> Pics = new java.util.LinkedList<>();
 		Session session = cluster.connect("instagrim");
-		PreparedStatement ps = session
-				.prepare("select picid from userpiclist where user =?");
+		// PreparedStatement ps = session.prepare("select picid from userpiclist where user =?");	// removing to specify if all pics(user Majed) are specified
+		PreparedStatement psAllPics;
+		
+			// filer if the user is the dummy one
+		if ("majed".equals(User)){
+			psAllPics = session.prepare("select picid from userpiclist");			
+		}
+		else {
+			psAllPics = session.prepare("select picid from userpiclist where user =?");	
+		}
+		
 		ResultSet rs = null;
-		BoundStatement boundStatement = new BoundStatement(ps);
-		rs = session.execute(boundStatement.bind(User)); // query executed,here
-															// you are binding
-															// the
-															// 'boundStatement'
-
+		BoundStatement boundStatement = new BoundStatement(psAllPics);
+		
+		if ("majed".equals(User)) {	// if that's the user w/ all the pics
+			rs = session.execute(boundStatement.bind(User)); 
+		}
+		else {
+			rs = session.execute(boundStatement.bind(User));	// else fetch the actual User
+		}
+		
 		if (rs.isExhausted()) {
 			System.out.println("No Images returned");
 			return null;
@@ -206,13 +218,39 @@ public class PicModel {
 				Pic pic = new Pic();
 				java.util.UUID UUID = row.getUUID("picid");
 				System.out.println("UUID" + UUID.toString());
-				pic.setUUID(UUID);
+				pic.setUUID(UUID);				
 				Pics.add(pic);
 
 			}
 		}
 		return Pics;
 	}
+		// method to make a query that returns all pics in the dB, almost a copy of the above method
+	public java.util.LinkedList<Pic> getAllPics() {		
+        java.util.LinkedList<Pic> Pics = new java.util.LinkedList<>();
+        Session session = cluster.connect("instagrim");
+        PreparedStatement ps = session.prepare("select picid from pics");
+        ResultSet rs = null;
+        
+        BoundStatement boundStatement = new BoundStatement(ps);
+        rs = session.execute(boundStatement.bind( ));	// no need to bind as we don't have where xxxx=?
+        
+        if (rs.isExhausted()) {
+            System.out.println("No pictures found");
+            return null;
+        } 
+        else {
+            for (Row row : rs) {
+                Pic pic = new Pic();
+                java.util.UUID UUID = row.getUUID("picid");
+                System.out.println("UUID" + UUID.toString());
+                pic.setUUID(UUID);                
+                Pics.add(pic);            
+                }
+        }
+        return Pics;
+    }
+	
 
 	public Pic getPic(int image_type, java.util.UUID picid) {
 		Session session = cluster.connect("instagrim");

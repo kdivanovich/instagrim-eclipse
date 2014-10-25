@@ -40,7 +40,7 @@
 
 				<h3><% out.println(lg.getUsername()); %></h3>
 				
-                <li class="nav"><a href="upload.jsp">Upload</a></li>
+                <li><a href="/Instagrim/Images/<%=lg.getUsername()%>">Your Images</a></li>
                 <li class="nav"><a href="/Instagrim/Images/majed">Sample Images</a></li>
             </ul>
         </nav>

@@ -42,6 +42,8 @@ import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
     "/Delete",
     "/Delete/",
     "/Delete/*",
+    "/DisplayAllImages",
+    "/DisplayAllImages/"
 })
 @MultipartConfig
 
@@ -63,6 +65,8 @@ public class Image extends HttpServlet {
         CommandsMap.put("Images",  2);
         CommandsMap.put("Thumb",   3);
         CommandsMap.put("Delete",  4);
+        CommandsMap.put("DisplayAllImages",  5);
+        
 
     }
 
@@ -97,9 +101,23 @@ public class Image extends HttpServlet {
                 break;
             case 4: 
             	DeleteImage(args[2], request, response);
+            	break;
+            case 5:
+            	DisplayAllImages(request, response);
+            	break;            	
             default:
                 error("Bad Operator", response);
         }
+    }
+    
+    	// the method that uses the one in PicModel to showw all pics in a servlet
+    private void DisplayAllImages( HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	PicModel tm = new PicModel();
+    	tm.setCluster(cluster);
+    	java.util.LinkedList<Pic> lsPics = tm.getAllPics();
+    	RequestDispatcher rd = request.getRequestDispatcher("/ShowAllPics.jsp");
+    	request.setAttribute("allPics", lsPics);
+    	rd.forward(request,  response);    	
     }
 
     

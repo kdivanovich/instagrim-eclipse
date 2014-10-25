@@ -44,7 +44,7 @@
 
 				<h3><% out.println(lg.getUsername()); %></h3>
                 <li class="nav"><a href="/Instagrim/upload.jsp">Upload</a></li>
-                <li class="nav"><a href="/Instagrim/Images/majed">Sample Images</a></li>
+                <li class="nav"><a href="/Instagrim/DisplayAllImages">Show All Images</a></li>
                 <li><a href="/Instagrim/Logout">Logout</a></li> </br>
             </ul>
         </nav>
@@ -58,21 +58,13 @@
         <p>No Pictures found</p>
         <%
         } else {
-        	/* andy's original loop
-            Iterator<Pic> iterator;
-            iterator = lsPics.iterator();
-            while (iterator.hasNext()) {
-            Pic p = (Pic) iterator.next();
-            */
-            
+        	
             for (int i =0; i<lsPics.size(); i++ ){	// my code, replicates Andy's code above
              	Pic p = lsPics.get(i);
         %>        
         
-        <!-- deleted a "<br/>" at the end of the previous line, the Break made the pics display in a column-->
-        
         <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a>
-                        
+		                        
 		<form action="/Instagrim/Delete/<%=p.getSUUID() %>">
     		<input type="submit" value="Delete"> 
 		</form> 
