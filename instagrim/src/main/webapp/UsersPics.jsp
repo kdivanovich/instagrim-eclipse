@@ -66,17 +66,21 @@
         	
             for (int i = 0; i<lsPics.size(); i++ ){	// my code, replicates Andy's code above
             Pic p = lsPics.get(i);
-            lsComments = picMod.getCommentsForPic(p.getSUUID());
-            	
+            lsComments = picMod.getCommentsForPic(p.getSUUID());            	
         %>        
         
         <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a><br>
-        <a> <%// out.println(lsComments.get(0)); %> </a></br>
-        
-        <% for (int j=0; j<lsComments.size(); j++) { %>        
-        <a> <% out.println(lsComments.get(j));%> 
-        </br>
-        <% } %> </a></br>
+                
+        <%
+        	// loop through the comments to display them one under another
+        if (lsComments != null) {		
+        	for (int j=0; j<lsComments.size(); j++) { %>        
+       	 	<a> <% out.println(lsComments.get(j));%> 
+        	</br>
+        <% 
+        	}
+        } 
+        %> </a></br>
         
         
         
@@ -102,7 +106,7 @@
         
         <%
         	
-            }
+           	 }
             }
         %>
         </article>

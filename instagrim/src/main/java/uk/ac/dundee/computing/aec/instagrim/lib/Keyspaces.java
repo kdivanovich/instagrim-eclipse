@@ -55,7 +55,7 @@ public final class Keyspaces {
             		+ "		login text,\n"
             		+ "		picid text,\n"
             		+ "		comment text,\n"
-            		+ "		PRIMARY KEY (commentid, picid)\n"
+            		+ "		PRIMARY KEY (commentid, picid, comment)\n"
             		+ "  );";
             
 

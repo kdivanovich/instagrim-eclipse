@@ -34,7 +34,10 @@
 			     User us = new User();	 
 			     Cluster cluster = null;           
 			     cluster = CassandraHosts.getCluster();
-			     us.setCluster(cluster);
+			     us.setCluster(cluster);			     
+
+			     PicModel picMod = new PicModel();
+			   	 picMod.setCluster(cluster);
 			     				     
 			     lg.setFirstName(us.getFirstName(user));
 			     lg.setPicid(us.getPicid(user));				
@@ -52,6 +55,7 @@
             <h1>Your Pics</h1>
         <%
             java.util.LinkedList<Pic> lsPics = (java.util.LinkedList<Pic>) request.getAttribute("allPics");
+   			LinkedList<String> lsComments = new LinkedList<>();
             if (lsPics == null) {
         %>
         <p>No Pictures found</p>
@@ -60,10 +64,32 @@
         	
             for (int i =0; i<lsPics.size(); i++ ){	// my code, replicates Andy's code above
              	Pic p = lsPics.get(i);
+             	lsComments = picMod.getCommentsForPic(p.getSUUID());  
         %>        
         
-        <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a>
+        <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a><br>
 		 
+		       
+        <%
+        	// loop through the comments to display them one under another
+        if (lsComments != null) {		
+        	for (int j=0; j<lsComments.size(); j++) { %>        
+       	 	<a> <% out.println(lsComments.get(j));%> 
+        	</br>
+        <% 
+        	}
+        } 
+        %> </a></br>
+        
+        
+        
+        <form method="POST" action="/Instagrim/Comment">
+        		<input type="text" name="comment" placeholder="your comment">
+        		<input type="text" name="login" value="<%=lg.getUsername() %>" hidden>  
+				<input type="text" name="picid" value="<%=p.getSUUID() %>" hidden >  			
+        	<input type="submit"	value="Comment"> <br><br>	
+        </form>
+         
 						
 		<form method="POST" action="/Instagrim/UpdateAvatar">
 			<input type="text" name="username" value="<%=lg.getUsername() %>" hidden>  </br>
