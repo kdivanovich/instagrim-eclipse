@@ -47,7 +47,7 @@ public class Comment extends HttpServlet {
 
 		pm.writeComment(login, picid, comment);
         
-        response.sendRedirect("/Instagrim/Images/majed");
+        response.sendRedirect("/Instagrim/Images/" + login);
 	}
 
 	

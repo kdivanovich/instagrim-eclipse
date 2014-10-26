@@ -10,6 +10,8 @@
 <%@ page import="uk.ac.dundee.computing.aec.instagrim.models.*" %>
 <%@ page import="uk.ac.dundee.computing.aec.instagrim.lib.CassandraHosts"%>
 <%@ page import="com.datastax.driver.core.Cluster"%>
+<%@ page import="java.util.LinkedList"%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -44,7 +46,6 @@
 				%>
 				<IMG HEIGHT=50 WIDTH=50 SRC="/Instagrim/Image/<%=lg.getPicid()%>" >
 				
-
 				<h3><% out.println(lg.getUsername()); %></h3>
                 <li class="nav"><a href="/Instagrim/upload.jsp">Upload</a></li>
                 <li class="nav"><a href="/Instagrim/DisplayAllImages">Show All Images</a></li>
@@ -55,28 +56,28 @@
         <article>
             <h1>Your Pics</h1>
         <%
-            java.util.LinkedList<Pic> lsPics = (java.util.LinkedList<Pic>) request.getAttribute("Pics");
-        	Vector <String> lsComments = new Vector<String>();
+            LinkedList<Pic> lsPics = (LinkedList<Pic>) request.getAttribute("Pics");
+       		LinkedList<String> lsComments = new LinkedList<>();
             if (lsPics == null) {
         %>
         <p>No Pictures found</p>
         <%
         } else {
         	
-            for (int i =0; i<lsPics.size(); i++ ){	// my code, replicates Andy's code above
+            for (int i = 0; i<lsPics.size(); i++ ){	// my code, replicates Andy's code above
             Pic p = lsPics.get(i);
             lsComments = picMod.getCommentsForPic(p.getSUUID());
             	
         %>        
         
         <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a><br>
-        <% for(int j=0; j<lsComments.size();j++) 
-        {
-        %>
-        <a> <% out.println(lsComments.get(j));
-        	    
-        	   }
-        %> </a></br>
+        <a> <%// out.println(lsComments.get(0)); %> </a></br>
+        
+        <% for (int j=0; j<lsComments.size(); j++) { %>        
+        <a> <% out.println(lsComments.get(j));%> 
+        </br>
+        <% } %> </a></br>
+        
         
         
         <form method="POST" action="/Instagrim/Comment">
@@ -100,8 +101,8 @@
 		<br><br>
         
         <%
+        	
             }
-            out.println();
             }
         %>
         </article>

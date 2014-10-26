@@ -234,7 +234,7 @@ public class PicModel {
 	//========================================================================================================================
 		// write comments to the table
 	
-	public void writeComment(String username, String picid, String comment) {
+	public void writeComment(String login, String picid, String comment) {
 		Session session = cluster.connect("instagrim");
 		
 		Convertors convertor = new Convertors();
@@ -242,15 +242,15 @@ public class PicModel {
 	    	        
 	    PreparedStatement ps = session.prepare("insert into comments (commentid,comment,picid,login) values(?,?,?,?)");
 	    BoundStatement bs = new BoundStatement(ps);
-	    session.execute(bs.bind(commentid,comment,picid,username));
+	    session.execute(bs.bind(commentid,comment,picid,login));
 	}
 	
 
 	//========================================================================================================================
 			// method to display the comments
 		
-	 public Vector<String> getCommentsForPic(String picid) {
-		 	Vector<String> comments = new Vector<>();
+	 public LinkedList<String> getCommentsForPic(String picid) {
+		 LinkedList<String> comments = new LinkedList<>();
 		 	
 	        Session session = cluster.connect("instagrim");
 	        PreparedStatement ps = session.prepare("select login,comment from comments where picid=?  ALLOW FILTERING");
@@ -390,5 +390,4 @@ public class PicModel {
 		return p;
 
 	}	
-
 }
