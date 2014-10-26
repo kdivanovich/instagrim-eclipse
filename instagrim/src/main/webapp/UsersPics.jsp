@@ -65,21 +65,23 @@
         } else {
         	
             for (int i = 0; i<lsPics.size(); i++ ){	// my code, replicates Andy's code above
-            Pic p = lsPics.get(i);
-            lsComments = picMod.getCommentsForPic(p.getSUUID());            	
+           		Pic p = lsPics.get(i);
+            	lsComments = picMod.getCommentsForPic(p.getSUUID());            	
         %>        
         
-        <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a><br>
+        <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a>
+        
+        <% out.println(p.getCaption());	//show the caption	%><br>
                 
         <%
         	// loop through the comments to display them one under another
-        if (lsComments != null) {		
-        	for (int j=0; j<lsComments.size(); j++) { %>        
-       	 	<a> <% out.println(lsComments.get(j));%> 
-        	</br>
-        <% 
-        	}
-        } 
+        		if (lsComments != null) {		
+        			for (int j=0; j<lsComments.size(); j++) { %>        
+       	 			<a> <% out.println(lsComments.get(j));%> 
+        			</br>
+        			<% 
+        			}
+        		} 
         %> </a></br>
         
         
@@ -88,28 +90,27 @@
         		<input type="text" name="comment" placeholder="your comment">
         		<input type="text" name="login" value="<%=lg.getUsername() %>" hidden>  
 				<input type="text" name="picid" value="<%=p.getSUUID() %>" hidden > 							
-				<input type="text" name="page" value="user" hidden >  </br>	 			
-        	<input type="submit"	value="Comment"> <br><br>	
+				<input type="text" name="page" value="user" hidden >		
+        	<input type="submit"	value="Comment"> 	<br><br>
         </form>
+        
+        				
+		<form method="POST" action="/Instagrim/UpdateAvatar">
+			<input type="text" name="username" value="<%=lg.getUsername() %>" hidden>  
+			<input type="text" name="picid" value="<%=p.getSUUID() %>" hidden > 											
+		<input type="submit"	value="Select avatar"> 	<br><br>
+		</form>
         
         
 		<form action="/Instagrim/Delete/<%=p.getSUUID() %>">
     		<input type="submit" value="Delete"> 
 		</form> 
-		
-						
-		<form method="POST" action="/Instagrim/UpdateAvatar">
-			<input type="text" name="username" value="<%=lg.getUsername() %>" hidden>  </br>
-			<input type="text" name="picid" value="<%=p.getSUUID() %>" hidden >  </br>											
-		<input type="submit"	value="Select avatar"> 	</br>
-		</form>
-		<br><br>
-        
+		<br><br>        
         <%
-        	
            	 }
             }
         %>
+        
         </article>
          <footer>
             <ul>                
