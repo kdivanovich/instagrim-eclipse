@@ -56,7 +56,7 @@
             <h1>Your Pics</h1>
         <%
             java.util.LinkedList<Pic> lsPics = (java.util.LinkedList<Pic>) request.getAttribute("Pics");
-        	java.util.LinkedList<String> lsComments = new java.util.LinkedList<String>();
+        	Vector <String> lsComments = new Vector<String>();
             if (lsPics == null) {
         %>
         <p>No Pictures found</p>
@@ -70,12 +70,18 @@
         %>        
         
         <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a><br>
-        <a> <% out.println(lsComments.get(0)); %> </a></br>
+        <% for(int j=0; j<lsComments.size();j++) 
+        {
+        %>
+        <a> <% out.println(lsComments.get(j));
+        	    
+        	   }
+        %> </a></br>
         
         
         <form method="POST" action="/Instagrim/Comment">
         		<input type="text" name="comment" placeholder="your comment">
-        		<input type="text" name="username" value="<%=lg.getUsername() %>" hidden>  
+        		<input type="text" name="login" value="<%=lg.getUsername() %>" hidden>  
 				<input type="text" name="picid" value="<%=p.getSUUID() %>" hidden >  			
         	<input type="submit"	value="Comment"> <br><br>	
         </form>
@@ -95,6 +101,7 @@
         
         <%
             }
+            out.println();
             }
         %>
         </article>

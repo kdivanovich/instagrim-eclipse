@@ -41,11 +41,11 @@ public class Comment extends HttpServlet {
 		PicModel pm = new PicModel();
         pm.setCluster(cluster);
 		
-		String username = request.getParameter("username");
+		String login = request.getParameter("login");
 		String picid = request.getParameter("picid");
 		String comment = request.getParameter("comment");
 
-		pm.writeComment(username, picid, comment);
+		pm.writeComment(login, picid, comment);
         
         response.sendRedirect("/Instagrim/Images/majed");
 	}

@@ -30,6 +30,7 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.Vector;
 
 import javax.imageio.ImageIO;
 
@@ -39,6 +40,7 @@ import org.imgscalr.Scalr.Method;
 
 import uk.ac.dundee.computing.aec.instagrim.lib.*;
 import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
+
 
 
 //import uk.ac.dundee.computing.aec.stores.TweetStore;
@@ -161,8 +163,7 @@ public class PicModel {
 
 	public byte[] picdecolour(String picid, String type) {
 		try {
-			BufferedImage BI = ImageIO.read(new File("/var/tmp/instagrim/"
-					+ picid));
+			BufferedImage BI = ImageIO.read(new File("/var/tmp/instagrim/"+ picid));
 			BufferedImage processed = createProcessed(BI);
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ImageIO.write(processed, type, baos);
@@ -248,8 +249,9 @@ public class PicModel {
 	//========================================================================================================================
 			// method to display the comments
 		
-	 public LinkedList<String> getCommentsForPic(String picid) {
-		 java.util.LinkedList<String> comments = new java.util.LinkedList<>();
+	 public Vector<String> getCommentsForPic(String picid) {
+		 	Vector<String> comments = new Vector<>();
+		 	
 	        Session session = cluster.connect("instagrim");
 	        PreparedStatement ps = session.prepare("select login,comment from comments where picid=?  ALLOW FILTERING");
 	        BoundStatement boundStatement = new BoundStatement(ps);
