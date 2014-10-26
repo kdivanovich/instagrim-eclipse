@@ -19,10 +19,10 @@ import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.utils.Bytes;
+
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -30,12 +30,17 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.Date;
 import java.util.LinkedList;
+
 import javax.imageio.ImageIO;
+
 import static org.imgscalr.Scalr.*;
+
 import org.imgscalr.Scalr.Method;
 
 import uk.ac.dundee.computing.aec.instagrim.lib.*;
 import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
+
+
 //import uk.ac.dundee.computing.aec.stores.TweetStore;
 import java.util.UUID; // needed for the pic delete func
 import java.util.LinkedList;
@@ -225,29 +230,43 @@ public class PicModel {
 		return Pics;
 	}
 	
+	//========================================================================================================================
+		// write comments to the table
+	
+	public void writeComment(String username, String picid, String comment) {
+		Session session = cluster.connect("instagrim");
+		
+		Convertors convertor = new Convertors();
+		java.util.UUID commentid = convertor.getTimeUUID();
+	    	        
+	    PreparedStatement ps = session.prepare("insert into comments (commentid,comment,picid,login) values(?,?,?,?)");
+	    BoundStatement bs = new BoundStatement(ps);
+	    session.execute(bs.bind(commentid,comment,picid,username));
+	}
+	
 
 	//========================================================================================================================
 			// method to display the comments
 		
-		public LinkedList<String> getCommentsForPic(String picid) {
-			LinkedList<String> Comments = new LinkedList<>();
-			Session session = cluster.connect("instagrim");	
-			ResultSet rs = null;		
-			
-			PreparedStatement psComments = session.prepare("select comment from comments");								
-			BoundStatement boundStatement = new BoundStatement(psComments);
-			rs = session.execute(boundStatement.bind()); 			
-			
-			if (rs.isExhausted()) {
-				System.out.println("No comments yet.");
-				return null;
-			} else {
-				for (Row row : rs) {								
-					Comments.add(row.getString("user")+": "+row.getString("comment"));
-				}
-			}
-			return Comments;
-		}
+	 public LinkedList<String> getCommentsForPic(String picid) {
+		 java.util.LinkedList<String> comments = new java.util.LinkedList<>();
+	        Session session = cluster.connect("instagrim");
+	        PreparedStatement ps = session.prepare("select login,comment from comments where picid=?  ALLOW FILTERING");
+	        BoundStatement boundStatement = new BoundStatement(ps);
+	        ResultSet rs = null;
+	        rs = session.execute(boundStatement.bind(picid));
+	        
+	        if (rs.isExhausted()) {
+	            System.out.println("No Comments Yet.");
+	            return null;
+	        } else {
+	            for (Row row : rs) {	                
+	                comments.add(row.getString("login")+": "+row.getString("comment"));
+	            }
+	        }
+	        
+	        return comments;
+	    }
 		
 	
 	//========================================================================================================================
@@ -368,6 +387,6 @@ public class PicModel {
 
 		return p;
 
-	}
+	}	
 
 }

@@ -36,8 +36,8 @@
 			     cluster = CassandraHosts.getCluster();
 			     us.setCluster(cluster);
 			     
-			     PicModel tm = new PicModel();
-			   	 tm.setCluster(cluster);
+			     PicModel picMod = new PicModel();
+			   	 picMod.setCluster(cluster);
 			     				     
 			     lg.setFirstName(us.getFirstName(user));
 			     lg.setPicid(us.getPicid(user));				
@@ -56,7 +56,7 @@
             <h1>Your Pics</h1>
         <%
             java.util.LinkedList<Pic> lsPics = (java.util.LinkedList<Pic>) request.getAttribute("Pics");
-        	java.util.LinkedList<String> lsComments;
+        	java.util.LinkedList<String> lsComments = new java.util.LinkedList<String>();
             if (lsPics == null) {
         %>
         <p>No Pictures found</p>
@@ -65,13 +65,12 @@
         	
             for (int i =0; i<lsPics.size(); i++ ){	// my code, replicates Andy's code above
             Pic p = lsPics.get(i);
-            lsComments = tm.getCommentsForPic(p.getSUUID());
-            	
+            lsComments = picMod.getCommentsForPic(p.getSUUID());
             	
         %>        
         
         <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a><br>
-        
+        <a> <% out.println(lsComments.get(0)); %> </a></br>
         
         
         <form method="POST" action="/Instagrim/Comment">

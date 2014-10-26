@@ -43,10 +43,10 @@ import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
     "/Delete/",
     "/Delete/*",
     "/DisplayAllImages",
-    "/DisplayAllImages/",
-    "/Image/Comments",
-    "/Image/Comments/",
-    "/Image/Comments/*"
+    "/DisplayAllImages/"
+    //"/Image/Comments",
+    //"/Image/Comments/",
+    //"/Image/Comments/*"
 })
 @MultipartConfig
 
@@ -69,7 +69,7 @@ public class Image extends HttpServlet {
         CommandsMap.put("Thumb",   3);
         CommandsMap.put("Delete",  4);
         CommandsMap.put("DisplayAllImages",  5);
-        CommandsMap.put("ShowComments",  6);
+        //CommandsMap.put("ShowComments",  6);
         
 
     }
@@ -108,20 +108,24 @@ public class Image extends HttpServlet {
             	break;
             case 5:
             	DisplayAllImages(request, response);
-            	break;            	
+            	break;    
+            	/*
             case 6:
             	ShowComments(args[2], request, response);
             	break;   
+            	*/
             default:
                 error("Bad Operator", response);
         }
     }
     
+    /*
     private void ShowComments(String picid, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	PicModel tm = new PicModel();
     	tm.setCluster(cluster);
     	java.util.LinkedList<String> lsComments = tm.getCommentsForPic(picid);    	    
     }
+    */
     
     
     	// the method that uses the one in PicModel to showw all pics in a servlet
