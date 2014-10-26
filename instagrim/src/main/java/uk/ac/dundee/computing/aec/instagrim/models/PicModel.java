@@ -277,7 +277,7 @@ public class PicModel {
 	public LinkedList<Pic> getAllPics() {		
         LinkedList<Pic> Pics = new LinkedList<>();
         Session session = cluster.connect("instagrim");
-        PreparedStatement ps = session.prepare("select picid from pics");
+        PreparedStatement ps = session.prepare("select picid,caption from userpiclist");
         ResultSet rs = null;
         
         BoundStatement boundStatement = new BoundStatement(ps);
@@ -292,6 +292,7 @@ public class PicModel {
                 Pic pic = new Pic();
                 java.util.UUID UUID = row.getUUID("picid");
                 System.out.println("UUID" + UUID.toString());
+                pic.setCaption(row.getString("caption"));
                 pic.setUUID(UUID);                
                 Pics.add(pic);            
                 }

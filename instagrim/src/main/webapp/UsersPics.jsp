@@ -74,7 +74,7 @@
         <i> <% if (p.getCaption().isEmpty()){		// don't show the NULL value if the user didn't provide a name/caption
 			} else {
 				out.println(p.getCaption());	
-			}%> </i> 
+			}%> </i> </br>
                 
         <%
         	// loop through the comments to display them one under another
