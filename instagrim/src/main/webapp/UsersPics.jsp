@@ -69,9 +69,12 @@
             	lsComments = picMod.getCommentsForPic(p.getSUUID());            	
         %>        
         
-        <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a>
+        <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a></br>
         
-        <% out.println(p.getCaption());	//show the caption	%><br>
+        <i> <% if (p.getCaption().isEmpty()){		// don't show the NULL value if the user didn't provide a name/caption
+			} else {
+				out.println(p.getCaption());	
+			}%> </i> 
                 
         <%
         	// loop through the comments to display them one under another

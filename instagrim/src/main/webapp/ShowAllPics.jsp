@@ -68,7 +68,9 @@
         %>        
         
         <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a><br>
-		 
+		
+		<i> <% out.println(p.getCaption());	
+			%> </i> </br>
 		       
         <%
         	// loop through the comments to display them one under another

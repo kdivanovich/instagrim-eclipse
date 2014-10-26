@@ -44,9 +44,6 @@ import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
     "/Delete/*",
     "/DisplayAllImages",
     "/DisplayAllImages/"
-    //"/Image/Comments",
-    //"/Image/Comments/",
-    //"/Image/Comments/*"
 })
 @MultipartConfig
 
@@ -68,9 +65,7 @@ public class Image extends HttpServlet {
         CommandsMap.put("Images",  2);
         CommandsMap.put("Thumb",   3);
         CommandsMap.put("Delete",  4);
-        CommandsMap.put("DisplayAllImages",  5);
-        //CommandsMap.put("ShowComments",  6);
-        
+        CommandsMap.put("DisplayAllImages",  5);       
 
     }
 
@@ -109,11 +104,6 @@ public class Image extends HttpServlet {
             case 5:
             	DisplayAllImages(request, response);
             	break;    
-            	/*
-            case 6:
-            	ShowComments(args[2], request, response);
-            	break;   
-            	*/
             default:
                 error("Bad Operator", response);
         }
@@ -151,8 +141,7 @@ public class Image extends HttpServlet {
 
     private void DisplayImage(int type,String Image, HttpServletResponse response) throws ServletException, IOException {
         PicModel tm = new PicModel();
-        tm.setCluster(cluster);
-  
+        tm.setCluster(cluster);  
         
         Pic p = tm.getPic(type,java.util.UUID.fromString(Image));
         

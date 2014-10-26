@@ -50,9 +50,9 @@
         <article>
             <h3>File Upload</h3>
             <form method="POST" enctype="multipart/form-data" action="Image">
-                File to upload: <input type="file" name="upfile" accept="image/"><br/>
-
+                File to upload: <input type="file" name="upfile" accept="image"><br/>
                 <br/>
+                <input type="text" name="caption" placeholder="picture name/caption"> <br/><br/>
                 <input type="submit" value="Press"> to upload the file!
             </form>
         </article>

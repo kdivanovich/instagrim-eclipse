@@ -88,8 +88,7 @@ public class PicModel {
 			PreparedStatement psInsertPicToUser = session.prepare("insert into userpiclist ( picid, user, pic_added, caption) values(?,?,?,?)");
 			
 			BoundStatement bsInsertPic = new BoundStatement(psInsertPic);
-			BoundStatement bsInsertPicToUser = new BoundStatement(
-					psInsertPicToUser);
+			BoundStatement bsInsertPicToUser = new BoundStatement(psInsertPicToUser);
 
 			Date DateAdded = new Date();
 			session.execute(bsInsertPic.bind(picid, buffer, thumbbuf,
@@ -199,10 +198,10 @@ public class PicModel {
 		
 			// filter if the user is the dummy one
 		if ("majed".equals(User)){
-			psAllPics = session.prepare("select picid from userpiclist");			
+			psAllPics = session.prepare("select picid,caption from userpiclist");			
 		}
 		else {
-			psAllPics = session.prepare("select picid from userpiclist where user =?");	
+			psAllPics = session.prepare("select picid,caption from userpiclist where user =?");	
 		}
 		
 		ResultSet rs = null;
@@ -223,7 +222,8 @@ public class PicModel {
 				Pic pic = new Pic();
 				java.util.UUID UUID = row.getUUID("picid");
 				System.out.println("UUID" + UUID.toString());
-				pic.setUUID(UUID);				
+				pic.setCaption(row.getString("caption"));
+				pic.setUUID(UUID);	
 				Pics.add(pic);
 			}
 		}
