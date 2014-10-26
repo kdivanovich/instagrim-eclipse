@@ -86,7 +86,8 @@
         <form method="POST" action="/Instagrim/Comment">
         		<input type="text" name="comment" placeholder="your comment">
         		<input type="text" name="login" value="<%=lg.getUsername() %>" hidden>  
-				<input type="text" name="picid" value="<%=p.getSUUID() %>" hidden >  			
+				<input type="text" name="picid" value="<%=p.getSUUID() %>" hidden > 				
+				<input type="text" name="page" value="DisplayAllImages" hidden >  </br>						
         	<input type="submit"	value="Comment"> <br><br>	
         </form>
          

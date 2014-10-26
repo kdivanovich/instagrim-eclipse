@@ -87,7 +87,8 @@
         <form method="POST" action="/Instagrim/Comment">
         		<input type="text" name="comment" placeholder="your comment">
         		<input type="text" name="login" value="<%=lg.getUsername() %>" hidden>  
-				<input type="text" name="picid" value="<%=p.getSUUID() %>" hidden >  			
+				<input type="text" name="picid" value="<%=p.getSUUID() %>" hidden > 							
+				<input type="text" name="page" value="user" hidden >  </br>	 			
         	<input type="submit"	value="Comment"> <br><br>	
         </form>
         
@@ -99,7 +100,7 @@
 						
 		<form method="POST" action="/Instagrim/UpdateAvatar">
 			<input type="text" name="username" value="<%=lg.getUsername() %>" hidden>  </br>
-			<input type="text" name="picid" value="<%=p.getSUUID() %>" hidden >  </br>														
+			<input type="text" name="picid" value="<%=p.getSUUID() %>" hidden >  </br>											
 		<input type="submit"	value="Select avatar"> 	</br>
 		</form>
 		<br><br>

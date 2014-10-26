@@ -44,10 +44,15 @@ public class Comment extends HttpServlet {
 		String login = request.getParameter("login");
 		String picid = request.getParameter("picid");
 		String comment = request.getParameter("comment");
+		String currentPage = request.getParameter("page");
 
 		pm.writeComment(login, picid, comment);
         
-        response.sendRedirect("/Instagrim/Images/" + login);
+		if (currentPage.equals("DisplayAllImages")) {
+			response.sendRedirect("/Instagrim/" + currentPage);
+		}
+		else 
+			response.sendRedirect("/Instagrim/Images/" + login);
 	}
 
 	
