@@ -13,6 +13,12 @@ package uk.ac.dundee.computing.aec.instagrim.models;
  * http://www.famkruithof.net/uuid/uuidgen
  */
 import com.datastax.driver.core.BoundStatement;
+import java.awt.Color;			// libs needed fo the filters
+import java.awt.Graphics2D;
+import java.awt.AlphaComposite;
+import java.io.ByteArrayInputStream;
+import static javax.swing.Spring.height;	// swing is used for my own exercise
+import static javax.swing.Spring.width;
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.ResultSet;
@@ -198,10 +204,10 @@ public class PicModel {
 		
 			// filter if the user is the dummy one
 		if ("majed".equals(User)){
-			psAllPics = session.prepare("select picid,caption from userpiclist");			
+			psAllPics = session.prepare("select picid,caption,user from userpiclist");			
 		}
 		else {
-			psAllPics = session.prepare("select picid,caption from userpiclist where user =?");	
+			psAllPics = session.prepare("select picid,caption,user from userpiclist where user =?");	
 		}
 		
 		ResultSet rs = null;
@@ -223,6 +229,7 @@ public class PicModel {
 				java.util.UUID UUID = row.getUUID("picid");
 				System.out.println("UUID" + UUID.toString());
 				pic.setCaption(row.getString("caption"));
+				pic.setUser(row.getString("user"));
 				pic.setUUID(UUID);	
 				Pics.add(pic);
 			}
@@ -277,7 +284,7 @@ public class PicModel {
 	public LinkedList<Pic> getAllPics() {		
         LinkedList<Pic> Pics = new LinkedList<>();
         Session session = cluster.connect("instagrim");
-        PreparedStatement ps = session.prepare("select picid,caption from userpiclist");
+        PreparedStatement ps = session.prepare("select picid,caption,user from userpiclist");
         ResultSet rs = null;
         
         BoundStatement boundStatement = new BoundStatement(ps);
@@ -293,6 +300,7 @@ public class PicModel {
                 java.util.UUID UUID = row.getUUID("picid");
                 System.out.println("UUID" + UUID.toString());
                 pic.setCaption(row.getString("caption"));
+                pic.setUser(row.getString("user"));
                 pic.setUUID(UUID);                
                 Pics.add(pic);            
                 }
@@ -331,7 +339,7 @@ public class PicModel {
 	//========================================================================================================================
 	
 
-	public Pic getPic(int image_type, java.util.UUID picid) {
+	public Pic getPic(int image_type, java.util.UUID picid) throws IOException {
 		Session session = cluster.connect("instagrim");
 		ByteBuffer bImage = null;
 		String type = null;
@@ -341,8 +349,8 @@ public class PicModel {
 			ResultSet rs = null;
 			PreparedStatement ps = null;
 
-			if (image_type == Convertors.DISPLAY_IMAGE) {
-
+			if (image_type == Convertors.DISPLAY_IMAGE|| image_type == Convertors.MAKE_RED) {
+				System.out.println("Getting image...");
 				ps = session
 						.prepare("select image,imagelength,type from pics where picid =?");
 			} else if (image_type == Convertors.DISPLAY_THUMB) {
@@ -363,7 +371,7 @@ public class PicModel {
 				return null;
 			} else {
 				for (Row row : rs) {
-					if (image_type == Convertors.DISPLAY_IMAGE) {
+					if (image_type == Convertors.DISPLAY_IMAGE || image_type == Convertors.MAKE_RED) {
 						bImage = row.getBytes("image");
 						length = row.getInt("imagelength");
 					} else if (image_type == Convertors.DISPLAY_THUMB) {
@@ -385,9 +393,50 @@ public class PicModel {
 		}
 		session.close();
 		Pic p = new Pic();
-		p.setPic(bImage, length, type);
-
+		
+		
+		if(image_type == Convertors.MAKE_RED){
+            System.out.println("Applying make red...");
+            byte[] tp = new byte[bImage.remaining()];
+            bImage.get(tp);
+            tp = redPic(tp, type);    
+            bImage = ByteBuffer.wrap(tp);
+        }
+		
+		
+		p.setPic(bImage, length, type);		
 		return p;
+	}
+	
+		// credit:  the following function is "inspired" the user littlefury, this is here so I can exercise in putting filters
+	public byte[] redPic(byte[] byteArray, String type){
+        byte[] imageInByte = null;
+        try{
+            String types[]=Convertors.SplitFiletype(type);
+            System.out.println("Filter... type: " + type);
+            InputStream input = new ByteArrayInputStream(byteArray);
+            BufferedImage original = ImageIO.read(input); // dimensions width x height, black on transparent
 
-	}	
+            for (int x = 0; x < original.getWidth(); x++) {
+                for (int y = 0; y < original.getHeight(); y++) {
+                    int rgba = original.getRGB(x,y);
+                    Color col = new Color (rgba, true);
+                    col = new Color (col.getRed(), col.getGreen() - (col.getGreen()/2), col.getBlue() - (col.getBlue()/2));
+                    original.setRGB(x, y, col.getRGB());
+                }
+            }
+            
+            ByteArrayOutputStream bs = new ByteArrayOutputStream();
+            ImageIO.write(original, types[1], bs);
+            bs.flush();
+            imageInByte = bs.toByteArray();
+
+            bs.close();
+            input.close();
+        }
+        catch(IOException et){
+            
+        }
+        return imageInByte;
+    }
 }

@@ -43,7 +43,9 @@ import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
     "/Delete/",
     "/Delete/*",
     "/DisplayAllImages",
-    "/DisplayAllImages/"
+    "/DisplayAllImages/",
+    "/Filter/",
+    "/Filter/*",
 })
 @MultipartConfig
 
@@ -65,7 +67,8 @@ public class Image extends HttpServlet {
         CommandsMap.put("Images",  2);
         CommandsMap.put("Thumb",   3);
         CommandsMap.put("Delete",  4);
-        CommandsMap.put("DisplayAllImages",  5);       
+        CommandsMap.put("DisplayAllImages",  5);   
+        CommandsMap.put("Filter", 6);
 
     }
 
@@ -104,6 +107,10 @@ public class Image extends HttpServlet {
             case 5:
             	DisplayAllImages(request, response);
             	break;    
+            case 6:
+            	System.out.println("Applying filter.. to " + args[2]);
+            	DisplayImage(Convertors.MAKE_RED, args[2], response);
+            	break;
             default:
                 error("Bad Operator", response);
         }

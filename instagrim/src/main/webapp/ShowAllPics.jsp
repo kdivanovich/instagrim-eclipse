@@ -67,9 +67,10 @@
              	lsComments = picMod.getCommentsForPic(p.getSUUID());  
         %>        
         
-        <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a><br>
+        <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a><br>       
 		
-		<i> <% out.println(p.getCaption());	%> </i> </br>
+		<i> <% out.println(p.getCaption());	%> </i> </br>		 
+        Original Poster: <a href="/Instagrim/Images/<%=p.getUser()%>" >  <%out.println(p.getUser()); %> </a><br>
 		       
         <%
         	// loop through the comments to display them one under another
@@ -81,8 +82,6 @@
         	}
         } 
         %> </a></br>
-        
-        
         
         <form method="POST" action="/Instagrim/Comment">
         		<input type="text" name="comment" placeholder="your comment">

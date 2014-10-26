@@ -18,10 +18,18 @@ public class Pic {
     private int length;
     private String type;
     private String caption;
+    private String user;
     private java.util.UUID UUID=null;
     
     public void Pic() {
     }
+    
+    public String getUser() {
+		return user;
+	}
+	public void setUser(String user) {
+		this.user = user;
+	}
     
 
 	public String getCaption() {
