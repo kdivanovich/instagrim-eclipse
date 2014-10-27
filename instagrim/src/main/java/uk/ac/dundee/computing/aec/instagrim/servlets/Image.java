@@ -173,7 +173,8 @@ public class Image extends HttpServlet {
 
             String caption = request.getParameter("caption");	// retrieve the name
             String type = part.getContentType();
-            String filename = part.getSubmittedFileName();            
+            String filename = part.getSubmittedFileName();   
+            String likes = "0";
             
             InputStream is = request.getPart(part.getName()).getInputStream();
             int i = is.available();
@@ -189,7 +190,7 @@ public class Image extends HttpServlet {
                 System.out.println("Length : " + b.length);
                 PicModel tm = new PicModel();
                 tm.setCluster(cluster);
-                tm.insertPic(b, type, filename, username, caption);
+                tm.insertPic(b, type, filename, username, caption, likes);
 
                 is.close();
             }

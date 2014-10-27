@@ -84,7 +84,17 @@ public class User {
         return true;
     }     
     
-    
+//	================================================================================================================
+    /*
+    public void Like(String likes, String username, String picid ){        
+        Session session = cluster.connect("instagrim");
+                
+        PreparedStatement ps = session.prepare("insert into likes (likes, login, picid) values (?,?,?)");        	       
+        BoundStatement boundStatement = new BoundStatement(ps);
+       
+        session.execute(boundStatement.bind(likes, username, picid));
+    }     
+      */  
     //================================================================================================================
     
     public void Comment(String username, String picid, String comment ){        

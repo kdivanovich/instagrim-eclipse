@@ -45,7 +45,8 @@
 				<IMG HEIGHT=50 WIDTH=50 SRC="/Instagrim/Image/<%=lg.getPicid()%>" >
 				
 
-				<h3><% out.println(lg.getUsername()); %></h3>
+				<h3><% out.println(lg.getUsername()); %></h3>				
+                <li><a href="/Instagrim/Images/<%=lg.getUsername()%>">Your Images</a></li>
                 <li class="nav"><a href="/Instagrim/upload.jsp">Upload</a></li>
                 <li><a href="/Instagrim/Logout">Logout</a></li> </br>
             </ul>
@@ -56,6 +57,7 @@
         <%
             java.util.LinkedList<Pic> lsPics = (java.util.LinkedList<Pic>) request.getAttribute("allPics");
    			LinkedList<String> lsComments = new LinkedList<>();
+   			LinkedList<String> lsLikes = new LinkedList<>();
             if (lsPics == null) {
         %>
         <p>No Pictures found</p>
@@ -64,7 +66,8 @@
         	
             for (int i =0; i<lsPics.size(); i++ ){	// my code, replicates Andy's code above
              	Pic p = lsPics.get(i);
-             	lsComments = picMod.getCommentsForPic(p.getSUUID());  
+             	lsComments = picMod.getCommentsForPic(p.getSUUID());
+             	lsLikes = picMod.getLikesForPic(p.getSUUID());
         %>        
         
         <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a><br>       
@@ -81,8 +84,27 @@
         <% 
         	}
         } 
+        
+        // loop through the likes to display them one under another -- for now
+		if (lsLikes != null) {		
+			for (int k=0; k<lsLikes.size(); k++) { %>        
+	 			<a> <% out.println("Likes: [" + lsLikes.get(k) + "] likes.");%> 
+			</br>
+			<% 
+			}
+		} 
         %> </a></br>
         
+        
+        <form method="POST" action="/Instagrim/Like">
+        		<input type="text" name="likes" value=<%=p.getLikes() %> hidden>
+        		<input type="text" name="login" value="<%=lg.getUsername() %>" hidden>  
+				<input type="text" name="picid" value="<%=p.getSUUID() %>" hidden > 
+				<input type="text" name="page" value="DisplayAllImages" hidden >  			
+        	<input type="submit"	value="Like"> <br><br>	
+        </form>
+        
+                
         <form method="POST" action="/Instagrim/Comment">
         		<input type="text" name="comment" placeholder="your comment">
         		<input type="text" name="login" value="<%=lg.getUsername() %>" hidden>  

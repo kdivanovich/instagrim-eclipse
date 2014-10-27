@@ -35,7 +35,6 @@ public final class Keyspaces {
                     + "user varchar,\n"
                     + "pic_added timestamp,\n"
                     + "caption varchar,\n"
-                    + "like varchar,\n"
                     + "PRIMARY KEY (user,pic_added)\n"
                     + ") WITH CLUSTERING ORDER BY (pic_added desc);";
             String CreateAddressType = "CREATE TYPE if not exists instagrim.address (\n"
@@ -52,12 +51,20 @@ public final class Keyspaces {
                     + "      picid text,\n"
                     + "      addresses text \n"
                     + "  );";
+            
+            
             String CreateComments = "CREATE TABLE if not exists instagrim.comments (\n"            		
             		+ "		commentid uuid,\n"
             		+ "		login text,\n"
             		+ "		picid text,\n"
             		+ "		comment text,\n"
-            		+ "		PRIMARY KEY (commentid, picid, comment)\n"
+            		+ "			PRIMARY KEY (commentid, picid, comment)\n"
+            		+ "  );";
+            String CreateLikes = "CREATE TABLE if not exists instagrim.likes (\n"            		
+            		+ "		likes text,\n"
+            		+ "		login text,\n"
+            		+ "		picid text,\n"
+            		+ "			PRIMARY KEY (picid)\n"
             		+ "  );";
             
 
@@ -112,6 +119,16 @@ public final class Keyspaces {
                 session.execute(cqlQuery);
             } catch (Exception et) {
                 System.out.println("Can't create Comments table " + et);
+            }
+            
+            
+            System.out.println("" + CreateLikes);
+
+            try {
+                SimpleStatement cqlQuery = new SimpleStatement(CreateLikes);
+                session.execute(cqlQuery);
+            } catch (Exception et) {
+                System.out.println("Can't create Likes table " + et);
             }
             
             

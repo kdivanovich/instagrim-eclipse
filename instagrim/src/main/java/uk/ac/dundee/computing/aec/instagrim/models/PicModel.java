@@ -65,7 +65,7 @@ public class PicModel {
 		this.cluster = cluster;
 	}
 
-	public void insertPic(byte[] b, String type, String name, String user, String caption) {
+	public void insertPic(byte[] b, String type, String name, String user, String caption, String likes) {
 		try {
 			Convertors convertor = new Convertors();
 
@@ -92,14 +92,18 @@ public class PicModel {
 				// now inserting a caption/name as well
 			PreparedStatement psInsertPic = session.prepare("insert into pics ( picid, image,thumb,processed, user, interaction_time,imagelength,thumblength,processedlength,type,name) values(?,?,?,?,?,?,?,?,?,?,?)");
 			PreparedStatement psInsertPicToUser = session.prepare("insert into userpiclist ( picid, user, pic_added, caption) values(?,?,?,?)");
+				//insert 0 likes
+			PreparedStatement psInsertLikes = session.prepare("insert into likes (likes,login,picid) values(?,?,?)");
 			
 			BoundStatement bsInsertPic = new BoundStatement(psInsertPic);
 			BoundStatement bsInsertPicToUser = new BoundStatement(psInsertPicToUser);
+			BoundStatement bsInsertLikes = new BoundStatement(psInsertLikes);
 
 			Date DateAdded = new Date();
 			session.execute(bsInsertPic.bind(picid, buffer, thumbbuf,
 							processedbuf, user, DateAdded, length, thumblength,processedlength, type, name));
 			session.execute(bsInsertPicToUser.bind(picid, user, DateAdded, caption));
+			session.execute(bsInsertLikes.bind(likes, user, picid));
 			session.close();
 
 		} catch (IOException ex) {
@@ -193,6 +197,41 @@ public class PicModel {
 		return pad(img, 4);
 	}
 	
+
+	//========================================================================================================================
+			// write likes to the table
+		
+		public void writeLikes(String login, String picid, String likes) {
+			Session session = cluster.connect("instagrim");
+					    	 
+		    PreparedStatement ps = session.prepare("insert into likes (login,picid,likes) values(?,?,?)");
+		    BoundStatement bs = new BoundStatement(ps);
+		    session.execute(bs.bind(login,picid,likes));
+		}	
+	
+	//========================================================================================================================
+			// method to display the likes
+
+	public LinkedList<String> getLikesForPic(String picid) {
+		 java.util.LinkedList<String> likes = new java.util.LinkedList<>();
+	        Session session = cluster.connect("instagrim");
+	        PreparedStatement ps = session.prepare("select login,likes from likes where picid=?  ALLOW FILTERING");
+	        BoundStatement boundStatement = new BoundStatement(ps);
+	        ResultSet rs = null;
+	        rs = session.execute(boundStatement.bind(picid));
+	        
+	        if (rs.isExhausted()) {
+	            System.out.println("No Likes Yet.");
+	            return null;
+	        } else {
+	            for (Row row : rs) {	                
+	                likes.add(row.getString("likes"));
+	            }
+	        }
+	        
+	        return likes;
+	    }
+	
 	//========================================================================================================================
 		// the following method is slightly re-worked for the majed user = all pics
 	
@@ -236,7 +275,7 @@ public class PicModel {
 		}
 		return Pics;
 	}
-	
+		
 	//========================================================================================================================
 		// write comments to the table
 	
@@ -307,33 +346,6 @@ public class PicModel {
         }
         return Pics;
     }
-	
-	//========================================================================================================================
-		// get the comments for each pic
-	/*
-	public java.util.LinkedList<Pic> getCommentsForUser(String User, String) {
-		 java.util.LinkedList<Pic> Pics = new java.util.LinkedList<>();
-	        Session session = cluster.connect("instagrim");
-	        PreparedStatement ps = session.prepare("select login,picid,comment,date from comments");
-	        ResultSet rs = null;
-	        BoundStatement boundStatement = new BoundStatement(ps);
-	        rs = session.execute( boundStatement.bind(User, picid, comment, date));
-	        if (rs.isExhausted()) {
-	            System.out.println("No comments found.");
-	            return null;
-	        } else {
-	            for (Row row : rs) {
-	                Pic pic = new Pic();
-	                java.util.UUID UUID = row.getUUID("picid");
-	                System.out.println("UUID" + UUID.toString());
-	                pic.setUUID(UUID);
-	                Pics.add(pic);
-
-	            }
-	        }
-	        return Pics;
-	}
-	*/
 	
 	
 	//========================================================================================================================

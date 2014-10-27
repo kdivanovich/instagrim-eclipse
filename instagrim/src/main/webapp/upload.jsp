@@ -53,6 +53,7 @@
                 File to upload: <input type="file" name="upfile" accept="image"><br/>
                 <br/>
                 <input type="text" name="caption" placeholder="picture name/caption"> <br/><br/>
+                <input type="text" name="likes" value="0" hidden>  
                 <input type="submit" value="Press"> to upload the file!
             </form>
         </article>
