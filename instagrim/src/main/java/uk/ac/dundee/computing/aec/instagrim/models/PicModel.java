@@ -68,7 +68,8 @@ public class PicModel {
 	public void insertPic(byte[] b, String type, String name, String user, String caption, String likes) {
 		try {
 			Convertors convertor = new Convertors();
-
+			
+			likes = "0";
 			String types[] = Convertors.SplitFiletype(type);
 			ByteBuffer buffer = ByteBuffer.wrap(b);
 			int length = b.length;
@@ -103,7 +104,7 @@ public class PicModel {
 			session.execute(bsInsertPic.bind(picid, buffer, thumbbuf,
 							processedbuf, user, DateAdded, length, thumblength,processedlength, type, name));
 			session.execute(bsInsertPicToUser.bind(picid, user, DateAdded, caption));
-			session.execute(bsInsertLikes.bind(likes, user, picid));
+			session.execute(bsInsertLikes.bind(likes, user, picid.toString()));
 			session.close();
 
 		} catch (IOException ex) {

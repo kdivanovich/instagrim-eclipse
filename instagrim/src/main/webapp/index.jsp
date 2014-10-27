@@ -66,8 +66,8 @@
 				<% } %>
                	               	
                 <li><a href="/Instagrim/Images/<%=lg.getUsername()%>">Your Images</a></li>
-                <li><a href="/Instagrim/profile.jsp">Profile</a></li>
                 <li><a href="upload.jsp">Upload</a></li>
+                <li><a href="/Instagrim/profile.jsp">Profile</a></li>
                 <li><a href="/Instagrim/Logout">Logout</a></li> </br>
                 
                     <%}
