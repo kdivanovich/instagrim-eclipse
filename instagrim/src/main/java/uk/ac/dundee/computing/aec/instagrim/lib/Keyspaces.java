@@ -35,6 +35,7 @@ public final class Keyspaces {
                     + "user varchar,\n"
                     + "pic_added timestamp,\n"
                     + "caption varchar,\n"
+                    + "like varchar,\n"
                     + "PRIMARY KEY (user,pic_added)\n"
                     + ") WITH CLUSTERING ORDER BY (pic_added desc);";
             String CreateAddressType = "CREATE TYPE if not exists instagrim.address (\n"
