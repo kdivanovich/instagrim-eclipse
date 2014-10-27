@@ -57,7 +57,7 @@
         <%
             java.util.LinkedList<Pic> lsPics = (java.util.LinkedList<Pic>) request.getAttribute("allPics");
    			LinkedList<String> lsComments = new LinkedList<>();
-   			LinkedList<String> lsLikes = new LinkedList<>();
+   			int lsLikes = 0;
             if (lsPics == null) {
         %>
         <p>No Pictures found</p>
@@ -83,21 +83,13 @@
         	</br>
         <% 
         	}
-        } 
+        }  %> </a></br>
         
-        // loop through the likes to display them one under another -- for now
-		if (lsLikes != null) {		
-			for (int k=0; k<lsLikes.size(); k++) { %>        
-	 			<a> <% out.println("Likes: [" + lsLikes.get(k) + "] likes.");%> 
-			</br>
-			<% 
-			}
-		} 
-        %> </a></br>
         
         
         <form method="POST" action="/Instagrim/Like">
-        		<input type="text" name="likes" value=<%=p.getLikes() %> hidden>
+    	 	 <% out.println( lsLikes + " likes.");%> 
+        		<input type="text" name="likes" value=<%=picMod.getLikesForPic(p.getSUUID())%> hidden>
         		<input type="text" name="login" value="<%=lg.getUsername() %>" hidden>  
 				<input type="text" name="picid" value="<%=p.getSUUID() %>" hidden > 
 				<input type="text" name="page" value="DisplayAllImages" hidden >  			

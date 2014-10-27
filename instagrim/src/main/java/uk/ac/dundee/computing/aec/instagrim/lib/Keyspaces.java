@@ -61,7 +61,7 @@ public final class Keyspaces {
             		+ "			PRIMARY KEY (commentid, picid, comment)\n"
             		+ "  );";
             String CreateLikes = "CREATE TABLE if not exists instagrim.likes (\n"            		
-            		+ "		likes text,\n"
+            		+ "		likes int,\n"
             		+ "		login text,\n"
             		+ "		picid text,\n"
             		+ "			PRIMARY KEY (picid)\n"

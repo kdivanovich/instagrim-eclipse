@@ -65,11 +65,11 @@ public class PicModel {
 		this.cluster = cluster;
 	}
 
-	public void insertPic(byte[] b, String type, String name, String user, String caption, String likes) {
+	public void insertPic(byte[] b, String type, String name, String user, String caption, int likes) {
 		try {
 			Convertors convertor = new Convertors();
 			
-			likes = "0";
+			likes = 0;
 			String types[] = Convertors.SplitFiletype(type);
 			ByteBuffer buffer = ByteBuffer.wrap(b);
 			int length = b.length;
@@ -202,7 +202,7 @@ public class PicModel {
 	//========================================================================================================================
 			// write likes to the table
 		
-		public void writeLikes(String login, String picid, String likes) {
+		public void writeLikes(String login, String picid, int likes) {
 			Session session = cluster.connect("instagrim");
 					    	 
 		    PreparedStatement ps = session.prepare("insert into likes (login,picid,likes) values(?,?,?)");
@@ -213,8 +213,8 @@ public class PicModel {
 	//========================================================================================================================
 			// method to display the likes
 
-	public LinkedList<String> getLikesForPic(String picid) {
-		 java.util.LinkedList<String> likes = new java.util.LinkedList<>();
+	public int getLikesForPic(String picid) {
+		 	int likes = 0;
 	        Session session = cluster.connect("instagrim");
 	        PreparedStatement ps = session.prepare("select login,likes from likes where picid=?  ALLOW FILTERING");
 	        BoundStatement boundStatement = new BoundStatement(ps);
@@ -223,10 +223,10 @@ public class PicModel {
 	        
 	        if (rs.isExhausted()) {
 	            System.out.println("No Likes Yet.");
-	            return null;
+	            return 0;
 	        } else {
 	            for (Row row : rs) {	                
-	                likes.add(row.getString("likes"));
+	                likes = row.getInt("likes");
 	            }
 	        }
 	        

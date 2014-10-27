@@ -174,7 +174,7 @@ public class Image extends HttpServlet {
             String caption = request.getParameter("caption");	// retrieve the name
             String type = part.getContentType();
             String filename = part.getSubmittedFileName();   
-            String likes = "0";
+            int likes = 0;
             
             InputStream is = request.getPart(part.getName()).getInputStream();
             int i = is.available();

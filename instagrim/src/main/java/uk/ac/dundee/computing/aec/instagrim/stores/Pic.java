@@ -19,19 +19,20 @@ public class Pic {
     private String type;
     private String caption;
     private String user;
-    private String likes;
+    //private String likes;
     private java.util.UUID UUID=null;
     
     public void Pic() {
     }
     
-
+    /*
 	public String getLikes() {
 		return likes;
 	}
 	public void setLikes(String likes) {
 		this.likes = likes;
 	}
+    */
     
     public String getUser() {
 		return user;

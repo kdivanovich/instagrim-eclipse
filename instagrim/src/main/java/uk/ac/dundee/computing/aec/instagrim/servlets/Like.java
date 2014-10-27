@@ -46,8 +46,18 @@ public class Like extends HttpServlet {
 		String picid = request.getParameter("picid");
 		String likes = request.getParameter("likes");
 		String currentPage = request.getParameter("page");
+		
+		int likesInt = Integer.parseInt(likes);
+		
+		likesInt = likesInt + 1;
+		/*
+		StringBuilder sb = new StringBuilder();
+		sb.append("");
+		sb.append(likesInt);
+		String likeString = sb.toString();
+		*/
 						
-        pm.writeLikes(login, picid, likes);
+        pm.writeLikes(login, picid, likesInt);
         
         if (currentPage.equals("DisplayAllImages")) {
 			response.sendRedirect("/Instagrim/" + currentPage);

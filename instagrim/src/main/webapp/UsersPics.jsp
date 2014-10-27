@@ -58,7 +58,7 @@
         <%
             LinkedList<Pic> lsPics = (LinkedList<Pic>) request.getAttribute("Pics");
        		LinkedList<String> lsComments = new LinkedList<>();
-       		LinkedList<String> lsLikes = new LinkedList<>();
+       		int lsLikes = 0;
             if (lsPics == null) {
         %>
         <p>No Pictures found</p>
@@ -69,6 +69,7 @@
            		Pic p = lsPics.get(i);
             	lsComments = picMod.getCommentsForPic(p.getSUUID());
             	lsLikes = picMod.getLikesForPic(p.getSUUID());
+            	//boolean liked = false; 
             	
         %>        
         
@@ -87,28 +88,25 @@
         			</br>
         			<% 
         			}
-        		} 
+        		}  %> <br>
         
-     // loop through the likes to display them one under another -- for now	
-     if (lsLikes != null) {		
-			for (int k=0; k<lsLikes.size(); k++) { %>        
-	 			<a> <% out.println("Likes: [" + lsLikes.get(k) + "] likes." + p.getLikes());%> 
-			</br>
-			<% 
-			}
-		} 
-        %> </a></br>
-        
-        
-        <form method="POST" action="/Instagrim/Like">				
-        		<input type="text" name="likes" value=<%=p.getLikes() %> hidden>        		
+                
+    	 <% 
+    	 //if (liked == false){    	 
+    	 %>
+			        
+        <form method="POST" action="/Instagrim/Like">	
+       		 <%  // show number of likes
+    	 	 out.println( lsLikes + " likes.");%> 	
+        		<input type="text" name="likes" value="<%=picMod.getLikesForPic(p.getSUUID())%>" hidden>			
 				<input type="text" name="picid" value="<%=p.getSUUID() %>" hidden > 
         		<input type="text" name="login" value="<%=lg.getUsername() %>" hidden>  
 				<input type="text" name="page" value="login" hidden >  			
-        	<input type="submit"	value="Like"> <br><br>	
+        	<input type="submit"	value="Like" > <br><br>	
         </form>
         
-        
+        <% //	}  %>	     
+       
         
         <form method="POST" action="/Instagrim/Comment">
         		<input type="text" name="comment" placeholder="your comment">
