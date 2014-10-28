@@ -114,16 +114,7 @@ public class Image extends HttpServlet {
             default:
                 error("Bad Operator", response);
         }
-    }
-    
-    /*
-    private void ShowComments(String picid, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	PicModel tm = new PicModel();
-    	tm.setCluster(cluster);
-    	java.util.LinkedList<String> lsComments = tm.getCommentsForPic(picid);    	    
-    }
-    */
-    
+    }   
     
     	// the method that uses the one in PicModel to showw all pics in a servlet
     private void DisplayAllImages( HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -174,6 +165,7 @@ public class Image extends HttpServlet {
             String caption = request.getParameter("caption");	// retrieve the name
             String type = part.getContentType();
             String filename = part.getSubmittedFileName();   
+            String filter = request.getParameter("filter");
             int likes = 0;
             
             InputStream is = request.getPart(part.getName()).getInputStream();
@@ -190,7 +182,7 @@ public class Image extends HttpServlet {
                 System.out.println("Length : " + b.length);
                 PicModel tm = new PicModel();
                 tm.setCluster(cluster);
-                tm.insertPic(b, type, filename, username, caption, likes);
+                tm.insertPic(b, type, filename, username, caption, likes, filter);
 
                 is.close();
             }

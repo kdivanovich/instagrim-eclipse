@@ -13,12 +13,15 @@ package uk.ac.dundee.computing.aec.instagrim.models;
  * http://www.famkruithof.net/uuid/uuidgen
  */
 import com.datastax.driver.core.BoundStatement;
+
 import java.awt.Color;			// libs needed fo the filters
 import java.awt.Graphics2D;
 import java.awt.AlphaComposite;
 import java.io.ByteArrayInputStream;
+
 import static javax.swing.Spring.height;	// swing is used for my own exercise
 import static javax.swing.Spring.width;
+
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.ResultSet;
@@ -27,6 +30,7 @@ import com.datastax.driver.core.Session;
 import com.datastax.driver.core.utils.Bytes;
 
 import java.awt.image.BufferedImage;
+import java.awt.image.WritableRaster;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -49,6 +53,7 @@ import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
 
 
 
+
 //import uk.ac.dundee.computing.aec.stores.TweetStore;
 import java.util.UUID; // needed for the pic delete func
 import java.util.LinkedList;
@@ -65,7 +70,7 @@ public class PicModel {
 		this.cluster = cluster;
 	}
 
-	public void insertPic(byte[] b, String type, String name, String user, String caption, int likes) {
+	public void insertPic(byte[] b, String type, String name, String user, String caption, int likes, String filter) {
 		try {
 			Convertors convertor = new Convertors();
 			
@@ -82,10 +87,10 @@ public class PicModel {
 					"/var/tmp/instagrim/" + picid));
 
 			output.write(b);
-			byte[] thumbb = picresize(picid.toString(), types[1]);
+			byte[] thumbb = picresize(picid.toString(), types[1], filter);	// create thumbnail
 			int thumblength = thumbb.length;
 			ByteBuffer thumbbuf = ByteBuffer.wrap(thumbb);
-			byte[] processedb = picdecolour(picid.toString(), types[1]);
+			byte[] processedb = picdecolour(picid.toString(), types[1], filter);	// apply filter
 			ByteBuffer processedbuf = ByteBuffer.wrap(processedb);
 			int processedlength = processedb.length;
 			Session session = cluster.connect("instagrim");
@@ -152,11 +157,11 @@ public class PicModel {
 		}
 	}
 
-	public byte[] picresize(String picid, String type) {
+	public byte[] picresize(String picid, String type, String filter) {
 		try {
 			BufferedImage BI = ImageIO.read(new File("/var/tmp/instagrim/"
 					+ picid));
-			BufferedImage thumbnail = createThumbnail(BI);
+			BufferedImage thumbnail = createThumbnail(BI, filter);
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ImageIO.write(thumbnail, type, baos);
 			baos.flush();
@@ -170,10 +175,10 @@ public class PicModel {
 		return null;
 	}
 
-	public byte[] picdecolour(String picid, String type) {
+	public byte[] picdecolour(String picid, String type, String filter) {
 		try {
 			BufferedImage BI = ImageIO.read(new File("/var/tmp/instagrim/"+ picid));
-			BufferedImage processed = createProcessed(BI);
+			BufferedImage processed = createProcessed(BI, filter);
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ImageIO.write(processed, type, baos);
 			baos.flush();
@@ -186,15 +191,66 @@ public class PicModel {
 		return null;
 	}
 
-	public static BufferedImage createThumbnail(BufferedImage img) {
-		img = resize(img, Method.SPEED, 250, OP_ANTIALIAS, OP_GRAYSCALE);
-		// Let's add a little border before we return result.
-		return pad(img, 2);
-	}
+	public static BufferedImage createThumbnail(BufferedImage img, String filter) {
+		//img = resize(img, Method.SPEED, 250, OP_ANTIALIAS, OP_GRAYSCALE);	
 
-	public static BufferedImage createProcessed(BufferedImage img) { 
-		int Width = img.getWidth() - 1;
-		img = resize(img, Method.SPEED, Width, OP_ANTIALIAS, OP_GRAYSCALE);
+		if (filter.equals("green")) {
+			int Width = img.getWidth() - 1;
+			int Height = img.getHeight();
+
+			for (int x = 0; x < Width; x++) {
+				for (int y = 0; y < Height; y++) {
+					int p = img.getRGB(x, y);
+
+					int a = (p >> 24) & 0xff;
+					int g = (p >> 8) & 0xff;
+
+					// set new RGB
+					p = (a << 24) | (0 << 16) | (g << 8) | 0;
+					img.setRGB(x, y, p);
+				}
+			}
+			img = resize(img, Method.SPEED, 250, OP_ANTIALIAS, OP_BRIGHTER);
+			//return pad(img, 2);
+		} 
+		else if (filter.equals("bw")){
+			img = resize(img, Method.SPEED, 250, OP_ANTIALIAS, OP_GRAYSCALE);
+			//return pad(img, 2);
+		}
+		
+		// Let's add a little border before we return result.
+		//img = resize(img, Method.SPEED, 250, OP_ANTIALIAS, OP_BRIGHTER);
+		return pad(img, 2);
+	}	
+	
+
+	public static BufferedImage createProcessed(BufferedImage img, String filter) { 
+		if (filter.equals("green")) {
+			int Width = img.getWidth() - 1;
+			int Height = img.getHeight();
+
+			for (int x = 0; x < Width; x++) {
+				for (int y = 0; y < Height; y++) {
+					int p = img.getRGB(x, y);
+
+					int a = (p >> 24) & 0xff;
+					int g = (p >> 8) & 0xff;
+
+					// set new RGB
+					p = (a << 24) | (0 << 16) | (g << 8) | 0;
+					img.setRGB(x, y, p);
+				}
+			}
+			img = resize(img, Method.SPEED, 250, OP_ANTIALIAS, OP_BRIGHTER);
+			//return pad(img, 2);
+		} 
+		else if (filter.equals("bw")){
+			img = resize(img, Method.SPEED, 250, OP_ANTIALIAS, OP_GRAYSCALE);
+			//return pad(img, 2);
+		}
+		
+		// Let's add a little border before we return result.
+		//img = resize(img, Method.SPEED, 250, OP_ANTIALIAS, OP_BRIGHTER);
 		return pad(img, 4);
 	}
 	
