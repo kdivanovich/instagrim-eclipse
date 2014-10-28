@@ -84,9 +84,14 @@
         	// loop through the comments to display them one under another
         		if (lsComments != null) {		
         			for (int j=0; j<lsComments.size(); j++) { %>        
-       	 			<a> <% out.println(lsComments.get(j));%> 
-        			</br>
-        			<% 
+       	 			<a> <% //out.println(lsComments.get(j));	// print user and comment as 1 string       	 			
+       	 			String userAndComment = lsComments.get(j);
+       	 			String[] parts = userAndComment.split(":");
+       	 			%>       	 			
+       	 			<a href="/Instagrim/Images/<%=parts[0]%>"><%=parts[0] %>:</a>       	 		
+       	 			<% 
+       	 			out.println(parts[1]);       	 			
+       	 			%>   </br>	<% 
         			}
         		}  %> <br>
         
