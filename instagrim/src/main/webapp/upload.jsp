@@ -57,7 +57,10 @@
                 
                 Filter: <select type="text" name="filter">
   				<option value="bw">Black and white</option>
+  				<option value="red">Red</option>
     			<option value="green">Green</option>
+    			<option value="blue">Blue</option>
+    			<option value="nofilter">No filter</option>
   				</select> <br><br>
 				
 			<input type="submit" value="Press"> to upload the file!

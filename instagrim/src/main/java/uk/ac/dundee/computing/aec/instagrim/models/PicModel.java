@@ -19,9 +19,6 @@ import java.awt.Graphics2D;
 import java.awt.AlphaComposite;
 import java.io.ByteArrayInputStream;
 
-import static javax.swing.Spring.height;	// swing is used for my own exercise
-import static javax.swing.Spring.width;
-
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.ResultSet;
@@ -192,10 +189,9 @@ public class PicModel {
 	}
 
 	public static BufferedImage createThumbnail(BufferedImage img, String filter) {
-		//img = resize(img, Method.SPEED, 250, OP_ANTIALIAS, OP_GRAYSCALE);	
-
+		
 		if (filter.equals("green")) {
-			int Width = img.getWidth() - 1;
+			int Width = img.getWidth();
 			int Height = img.getHeight();
 
 			for (int x = 0; x < Width; x++) {
@@ -211,22 +207,57 @@ public class PicModel {
 				}
 			}
 			img = resize(img, Method.SPEED, 250, OP_ANTIALIAS, OP_BRIGHTER);
-			//return pad(img, 2);
 		} 
+		else if (filter.equals("red")) {
+			int Width = img.getWidth();
+			int Height = img.getHeight();
+
+			for (int x = 0; x < Width; x++) {
+				for (int y = 0; y < Height; y++) {
+					int p = img.getRGB(x, y);
+
+					int a = (p >> 24) & 0xff;
+					int r = (p >> 16) & 0xff;
+
+					// set new RGB
+					p = (a << 24) | (r << 16) | (0 << 8) | 0;
+					img.setRGB(x, y, p);
+				}
+			}
+			img = resize(img, Method.SPEED, 250, OP_ANTIALIAS, OP_BRIGHTER);
+		}
+		else if (filter.equals("blue")) {
+			int Width = img.getWidth();
+			int Height = img.getHeight();
+
+			for (int x = 0; x < Width; x++) {
+				for (int y = 0; y < Height; y++) {
+					int p = img.getRGB(x, y);
+
+					int a = (p >> 24) & 0xff;
+					int b = (p >> 0) & 0xff;
+
+					// set new RGB
+					p = (a << 24) | (0 << 16) | (0 << 8) | (b << 0);
+					img.setRGB(x, y, p);
+				}
+			}
+			img = resize(img, Method.SPEED, 250, OP_ANTIALIAS, OP_BRIGHTER);
+		}
 		else if (filter.equals("bw")){
 			img = resize(img, Method.SPEED, 250, OP_ANTIALIAS, OP_GRAYSCALE);
-			//return pad(img, 2);
+		}
+		else if (filter.equals("nofilter")){
+			img = resize(img, Method.SPEED, 250, OP_ANTIALIAS, OP_BRIGHTER);
 		}
 		
-		// Let's add a little border before we return result.
-		//img = resize(img, Method.SPEED, 250, OP_ANTIALIAS, OP_BRIGHTER);
 		return pad(img, 2);
 	}	
 	
 
 	public static BufferedImage createProcessed(BufferedImage img, String filter) { 
 		if (filter.equals("green")) {
-			int Width = img.getWidth() - 1;
+			int Width = img.getWidth();
 			int Height = img.getHeight();
 
 			for (int x = 0; x < Width; x++) {
@@ -242,15 +273,50 @@ public class PicModel {
 				}
 			}
 			img = resize(img, Method.SPEED, 250, OP_ANTIALIAS, OP_BRIGHTER);
-			//return pad(img, 2);
 		} 
+		else if (filter.equals("red")) {
+			int Width = img.getWidth();
+			int Height = img.getHeight();
+
+			for (int x = 0; x < Width; x++) {
+				for (int y = 0; y < Height; y++) {
+					int p = img.getRGB(x, y);
+
+					int a = (p >> 24) & 0xff;
+					int r = (p >> 16) & 0xff;
+
+					// set new RGB
+					p = (a << 24) | (r << 16) | (0 << 8) | 0;
+					img.setRGB(x, y, p);
+				}
+			}
+			img = resize(img, Method.SPEED, 250, OP_ANTIALIAS, OP_BRIGHTER);
+		}
+		else if (filter.equals("blue")) {
+			int Width = img.getWidth();
+			int Height = img.getHeight();
+
+			for (int x = 0; x < Width; x++) {
+				for (int y = 0; y < Height; y++) {
+					int p = img.getRGB(x, y);
+
+					int a = (p >> 24) & 0xff;
+					int b = (p >> 0) & 0xff;
+
+					// set new RGB
+					p = (a << 24) | (0 << 16) | (0 << 8) | (b << 0);
+					img.setRGB(x, y, p);
+				}
+			}
+			img = resize(img, Method.SPEED, 250, OP_ANTIALIAS, OP_BRIGHTER);
+		}
 		else if (filter.equals("bw")){
 			img = resize(img, Method.SPEED, 250, OP_ANTIALIAS, OP_GRAYSCALE);
-			//return pad(img, 2);
+		}
+		else if (filter.equals("nofilter")){
+			img = resize(img, Method.SPEED, 250, OP_ANTIALIAS, OP_BRIGHTER);
 		}
 		
-		// Let's add a little border before we return result.
-		//img = resize(img, Method.SPEED, 250, OP_ANTIALIAS, OP_BRIGHTER);
 		return pad(img, 4);
 	}
 	
