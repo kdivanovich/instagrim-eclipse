@@ -50,6 +50,14 @@ public class Register extends HttpServlet {
 		String lastName = request.getParameter("lastName");
 		String email = request.getParameter("email");
 		
+		
+
+		if (username.equals("majed")) {
+			response.sendRedirect("errorUsernameTaken.jsp");
+		} else
+		{ 
+		
+		
 		if (repeatPassword.equals(password)) {
 			
 				// if details are > 2 symbols each - OK:
@@ -74,6 +82,7 @@ public class Register extends HttpServlet {
 
 		} else {	// if passwords don't match display an error
 			response.sendRedirect("errorPasswordsNotMatch.jsp");
+		}
 		}
 	}
 

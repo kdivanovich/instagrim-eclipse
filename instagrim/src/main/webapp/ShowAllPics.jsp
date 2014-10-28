@@ -68,6 +68,7 @@
              	Pic p = lsPics.get(i);
              	lsComments = picMod.getCommentsForPic(p.getSUUID());
              	lsLikes = picMod.getLikesForPic(p.getSUUID());
+             	
         %>        
         
         <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a><br>       
@@ -78,7 +79,7 @@
         <%
         	// loop through the comments to display them one under another
         if (lsComments != null) {		
-        	for (int j=0; j<lsComments.size(); j++) { %>        
+        	for (int j=0; j<lsComments.size(); j++) { %>       
        	 	<a> <% out.println(lsComments.get(j));%> 
         	</br>
         <% 
