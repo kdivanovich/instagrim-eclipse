@@ -254,12 +254,14 @@ public class PicModel {
 		return pad(img, 2);
 	}	
 	
-
+	//========================================================================================================================
+	
 	public static BufferedImage createProcessed(BufferedImage img, String filter) { 
-		if (filter.equals("green")) {
-			int Width = img.getWidth();
-			int Height = img.getHeight();
 
+		int Width = img.getWidth();
+		int Height = img.getHeight();
+		
+		if (filter.equals("green")) {
 			for (int x = 0; x < Width; x++) {
 				for (int y = 0; y < Height; y++) {
 					int p = img.getRGB(x, y);
@@ -272,12 +274,10 @@ public class PicModel {
 					img.setRGB(x, y, p);
 				}
 			}
-			img = resize(img, Method.SPEED, 250, OP_ANTIALIAS, OP_BRIGHTER);
+			img = resize(img, Method.SPEED, Width, OP_ANTIALIAS, OP_BRIGHTER);
 		} 
+		
 		else if (filter.equals("red")) {
-			int Width = img.getWidth();
-			int Height = img.getHeight();
-
 			for (int x = 0; x < Width; x++) {
 				for (int y = 0; y < Height; y++) {
 					int p = img.getRGB(x, y);
@@ -290,12 +290,10 @@ public class PicModel {
 					img.setRGB(x, y, p);
 				}
 			}
-			img = resize(img, Method.SPEED, 250, OP_ANTIALIAS, OP_BRIGHTER);
+			img = resize(img, Method.SPEED, Width, OP_ANTIALIAS, OP_BRIGHTER);
 		}
+		
 		else if (filter.equals("blue")) {
-			int Width = img.getWidth();
-			int Height = img.getHeight();
-
 			for (int x = 0; x < Width; x++) {
 				for (int y = 0; y < Height; y++) {
 					int p = img.getRGB(x, y);
@@ -308,14 +306,16 @@ public class PicModel {
 					img.setRGB(x, y, p);
 				}
 			}
-			img = resize(img, Method.SPEED, 250, OP_ANTIALIAS, OP_BRIGHTER);
+			img = resize(img, Method.SPEED, Width, OP_ANTIALIAS, OP_BRIGHTER);
 		}
-		else if (filter.equals("bw")){
-			img = resize(img, Method.SPEED, 250, OP_ANTIALIAS, OP_GRAYSCALE);
-		}
+				
 		else if (filter.equals("nofilter")){
-			img = resize(img, Method.SPEED, 250, OP_ANTIALIAS, OP_BRIGHTER);
-		}
+			img = resize(img, Method.SPEED, Width, OP_ANTIALIAS, OP_BRIGHTER);
+		}		
+
+		else if (filter.equals("bw")){
+			img = resize(img, Method.SPEED, Width-1, OP_ANTIALIAS, OP_GRAYSCALE);	// without the -1 is doesn't take 
+		}																			// the grayscale into account
 		
 		return pad(img, 4);
 	}

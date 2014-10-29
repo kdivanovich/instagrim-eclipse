@@ -44,7 +44,7 @@ public class UpdateAvatar extends HttpServlet {
 		us.setCluster(cluster);
 		
 		us.UpdateAvatar(username,picid );
-		response.sendRedirect("/Instagrim/index.jsp");		
+		response.sendRedirect("/Instagrim/Images/" + username);		
 	}
 
 
