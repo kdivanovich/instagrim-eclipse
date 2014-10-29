@@ -54,7 +54,12 @@
         </nav>
  
         <article>
-            <h1>Your Pics</h1>
+            <h1>The pics of all Instagrim users</h1>
+            
+            <form method="POST" action="/Instagrim/Search">
+                	<input type="text" name="searchText" placeholder="search by name/caption" >	
+					<input type="submit"	value="Search"> 
+				</form><br><br>
         <%
             java.util.LinkedList<Pic> lsPics = (java.util.LinkedList<Pic>) request.getAttribute("allPics");
    			LinkedList<String> lsComments = new LinkedList<>();

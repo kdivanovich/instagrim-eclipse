@@ -21,6 +21,10 @@
      
      <a href="/Instagrim"><b>Home</b></a></br></br>            	
      
+     <form method="POST" action="/Instagrim/Search">
+                	<input type="text" name="searchText" placeholder="search by name/caption" >	
+					<input type="submit"	value="Search"> 
+				</form><br>
      
      <%  LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
      
@@ -36,17 +40,18 @@
      
      lg.setFirstName(us.getFirstName(user));
      lg.setPicid(us.getPicid(user)); 
-     String searchedFor = session.getAttribute("searchedFor").toString();
-     out.println(session.getAttribute("searchedFor")); //print the passed searched text from UsersPics.jsp     
-     %>
+     String searchedFor = session.getAttribute("searchedFor").toString(); %> 
      
-     <br> <IMG HEIGHT=50 WIDTH=50 SRC="/Instagrim/Image/<%=lg.getPicid()%>" > <br>
-     
-     <%     
+     <b>Search for: 
+     <%
+     out.println(session.getAttribute("searchedFor")); //print the passed searched text from UsersPics.jsp
      UUID picTag = picMod.returnSearchTags(searchedFor);
-     %>
+     %></b></b> <br>
      
-     <IMG HEIGHT=100 WIDTH=100 SRC="/Instagrim/Image/<%=picTag%>" > <br>
+     <a href="/Instagrim/Image/<%=picTag%>" > <br>
+     <a href="/Instagrim/Image/<%=picTag%>" ><img src="/Instagrim/Thumb/<%=picTag%>"></a></br>
+     
+     Original Poster: 
 		
 <% session.removeAttribute("searchedFor"); %>
 </body>

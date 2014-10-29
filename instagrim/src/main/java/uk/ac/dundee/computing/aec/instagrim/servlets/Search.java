@@ -39,18 +39,24 @@ public class Search extends HttpServlet {
 	}
 
 	@Override
-	protected void doPost(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		String searchText = request.getParameter("searchText");
-		
-		PicModel pm = new PicModel();
-		pm.setCluster(cluster);
-				
-		pm.returnSearchTags(searchText);
+
+		if (searchText.equals("")) {
+			response.sendRedirect("errorBlankSearch.jsp");
+		} else {
+
+			PicModel pm = new PicModel();
+			pm.setCluster(cluster);
+
+			pm.returnSearchTags(searchText);
 
 			// set up a parameter to be passed to the jsp page the servlet is redirecting to
-		HttpSession session = request.getSession();
-		session.setAttribute("searchedFor", searchText);
-		response.sendRedirect("/Instagrim/searchResults.jsp");
+			HttpSession session = request.getSession();
+			session.setAttribute("searchedFor", searchText);
+			response.sendRedirect("/Instagrim/searchResults.jsp");
+		}
 	}
 
 
