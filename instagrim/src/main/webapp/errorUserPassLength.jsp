@@ -7,10 +7,10 @@
 <title>Error: invalid input</title>
 </head>
 <body>
-
+	<body bgcolor="#FFFFCC">
 	 <header>
 	 	<h1><center>InstaGrim ! </center></h1>
-        <h2><center>Your world in Black and White</center></h2>                 
+        <h2><center>Your world in Coloured Filters</center></h2>                
      </header>
         
          <h1>InstaGrim Error </h1>  <br>

@@ -15,6 +15,7 @@
 
 <!DOCTYPE html>
 <html>
+	<body bgcolor="#FFFFCC">
     <head>
         <title>Instagrim</title>
         <link rel="stylesheet" type="text/css" href="Styles.css" />
@@ -23,7 +24,7 @@
     <body>
         <header>
             <h1><center>InstaGrim ! </center></h1>
-        	<h2><center>Your world in Black and White</center></h2>        
+        	<h2><center>Your world in Coloured Filters</center></h2>       
         </header>
         <nav>
             <ul>

@@ -12,6 +12,7 @@
 <%@ page import="com.datastax.driver.core.Cluster"%>
 <!DOCTYPE html>
 <html>
+	<body bgcolor="#FFFFCC">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Instagrim</title>
@@ -21,7 +22,7 @@
         <header>
         <%  LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");%>
         <h1><center>InstaGrim ! </center></h1>
-        <h2><center>Your world in Black and White</center></h2>        
+        <h2><center>Your world in Coloured Filters</center></h2>   
         </header>
         
         

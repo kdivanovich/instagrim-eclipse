@@ -15,13 +15,12 @@
 
 </head>
 <body>
+	<body bgcolor="#FFFFCC">
 	<header>
 		<h1>
 			<center>InstaGrim !</center>
 		</h1>
-		<h2>
-			<center>Your world in Black and White</center>
-		</h2>
+			<h2><center>Your world in Coloured Filters</center></h2>
 	</header>
 	<nav>
 		<a href="/Instagrim"><b>Home</b></a></br> </br>
@@ -32,7 +31,8 @@
 	
 
 	<form method="POST" action="UpdateInfo">
-		Username: <input type="text" name="username" value=<%= lg.getUsername() %>>  </br>
+		Username: <%=lg.getUsername() %>  </br>
+		<input type="text" name="username" value=<%=lg.getUsername() %> hidden>  </br>
 		First name: <input type="text" name="firstName" value=<%=lg.getFirstName() %>>  </br>
 		Last name: <input type="text" name="lastName" value=<%=lg.getLastName() %> >  </br>
 		Email: <input type="text" name="email" value=<%=lg.getEmail() %> > 		</br>													

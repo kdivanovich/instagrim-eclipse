@@ -119,15 +119,15 @@ public class PicModel {
 		try {
 			Session session = cluster.connect("instagrim");
 
-			PreparedStatement psInsertedTime = session.prepare("SELECT interaction_time, user FROM pics WHERE picid = ?");
-			PreparedStatement psDeletePic = session.prepare("DELETE FROM pics WHERE picid = ?");
-			PreparedStatement psDeletePicUserPicList = session.prepare("DELETE FROM userpiclist WHERE user = ? AND pic_added = ?");
+			PreparedStatement psTimeStored = session.prepare("SELECT interaction_time, user FROM pics WHERE picid = ?");
+			PreparedStatement psPicDelete = session.prepare("DELETE FROM pics WHERE picid = ?");
+			PreparedStatement psPicDeleteFromUserPicList = session.prepare("DELETE FROM userpiclist WHERE user = ? AND pic_added = ?");
 
-			BoundStatement bsInsertedTime = new BoundStatement(psInsertedTime);
-			BoundStatement bsDeletePic = new BoundStatement(psDeletePic);
-			BoundStatement bsDeletePicUserPicList = new BoundStatement(psDeletePicUserPicList);
+			BoundStatement bsTimeStored = new BoundStatement(psTimeStored);
+			BoundStatement bsPicDelete = new BoundStatement(psPicDelete);
+			BoundStatement bsPicDeleteFromUserPicList = new BoundStatement(psPicDeleteFromUserPicList);
 
-			ResultSet rs = session.execute(bsInsertedTime.bind(picID));
+			ResultSet rs = session.execute(bsTimeStored.bind(picID));
 			Date dateAdded = new Date();
 			String owner = "";
 			
@@ -141,13 +141,13 @@ public class PicModel {
 				}
 			}
 			if (owner.equals(user)) {
-				session.execute(bsDeletePic.bind(picID));
-				session.execute(bsDeletePicUserPicList.bind(user, dateAdded));
+				session.execute(bsPicDelete.bind(picID));
+				session.execute(bsPicDeleteFromUserPicList.bind(user, dateAdded));
 				session.close();
-				return "success";
+				return "image deleted";
 			}
 			session.close();
-			return "Error: the owner is not the current user";
+			return "Error: the owner is not the current user. \nYou cannot edit other people's images.";
 		} 
 		catch (Exception exception) {
 			return exception.getMessage();

@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+	<body bgcolor="#FFFFCC">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Instagrim</title>
@@ -16,13 +17,13 @@
     <body>
         <header>
         <h1><center>InstaGrim ! </center></h1>
-        <h2><center>Your world in Black and White</center></h2>        
+        <h2><center>Your world in Coloured Filters</center></h2>      
         </header>
         
         <nav>
             <ul>
+            	<li class="footer"><a href="/Instagrim">Home</a></li>
                 <li><a href="login.jsp">Login</a></li>
-                <li><a href="/Instagrim/Images/majed">Sample Images</a></li>
             </ul>
         </nav>
        

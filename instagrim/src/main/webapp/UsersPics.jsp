@@ -14,6 +14,7 @@
 
 <!DOCTYPE html>
 <html>
+	<body bgcolor="#FFFFCC">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Instagrim</title>
@@ -23,7 +24,7 @@
         <header>
         <%  LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");%>
         <h1><center>InstaGrim ! </center></h1>
-        <h2><center>Your world in Black and White</center></h2>        
+        <h2><center>Your world in Coloured Filters</center></h2>       
         </header>
         
         
@@ -52,6 +53,7 @@
                 <li><a href="/Instagrim/Logout">Logout</a></li> </br>
             </ul>
         </nav>
+        
  
         <article>
             <h1>Your Pics</h1>
@@ -61,7 +63,7 @@
        		int lsLikes = 0;
             if (lsPics == null) {
         %>
-        <p>No Pictures found</p>
+        <p>You don't have any pictures yet. Click the "Upload" button to get started!</p>
         <%
         } else {
         	
@@ -136,9 +138,10 @@
         <%
            	 }
             }
-        %>
-        
+        %>        
         </article>
+        
+        
          <footer>
             <ul>                
                 <li>&COPY; Konstantin I.</li>

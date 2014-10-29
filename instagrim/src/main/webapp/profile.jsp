@@ -13,10 +13,10 @@
 <title>Your Profile</title>
 </head>
 <body>
-
+	<body bgcolor="#FFFFCC">
 	 <header>
 	 	<h1><center>InstaGrim ! </center></h1>
-        <h2><center>Your world in Black and White</center></h2>                 
+        <h2><center>Your world in Coloured Filters</center></h2>                 
      </header>
      
      <a href="/Instagrim"><b>Home</b></a></br></br>

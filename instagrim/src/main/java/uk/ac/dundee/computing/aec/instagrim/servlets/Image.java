@@ -198,10 +198,11 @@ public class Image extends HttpServlet {
                 
         HttpSession session = request.getSession();
         LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
+        
         String currentUser = lg.getUsername();
         String image_deleted = tm.deletePic(currentUser, UUID.fromString(picID));
         
-        if (!image_deleted.equals("success")) {
+        if (!image_deleted.equals("image deleted")) {
         	error("No such picture exists. " + image_deleted, response);
         	return;
         } 
