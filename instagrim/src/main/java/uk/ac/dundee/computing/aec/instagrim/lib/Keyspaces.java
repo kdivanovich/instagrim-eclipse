@@ -66,6 +66,12 @@ public final class Keyspaces {
             		+ "		picid text,\n"
             		+ "			PRIMARY KEY (picid)\n"
             		+ "  );";
+            String CreateTags = "CREATE TABLE if not exists instagrim.tags (\n"            		
+            		+ "		tag text,\n"
+            		+ "		user text,\n"
+            		+ "		picid uuid,\n"
+            		+ "		PRIMARY KEY (tag)\n"
+            		+ "  );";
             
 
             Session session = c.connect();
@@ -113,7 +119,6 @@ public final class Keyspaces {
             
             
             System.out.println("" + CreateComments);
-
             try {
                 SimpleStatement cqlQuery = new SimpleStatement(CreateComments);
                 session.execute(cqlQuery);
@@ -123,12 +128,19 @@ public final class Keyspaces {
             
             
             System.out.println("" + CreateLikes);
-
             try {
                 SimpleStatement cqlQuery = new SimpleStatement(CreateLikes);
                 session.execute(cqlQuery);
             } catch (Exception et) {
                 System.out.println("Can't create Likes table " + et);
+            }
+            
+            System.out.println("" + CreateTags);
+            try {
+                SimpleStatement cqlQuery = new SimpleStatement(CreateTags);
+                session.execute(cqlQuery);
+            } catch (Exception et) {
+                System.out.println("Can't create Tags table " + et);
             }
             
             

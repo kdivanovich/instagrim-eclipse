@@ -49,13 +49,7 @@ public class Like extends HttpServlet {
 		
 		int likesInt = Integer.parseInt(likes);
 		
-		likesInt = likesInt + 1;
-		/*
-		StringBuilder sb = new StringBuilder();
-		sb.append("");
-		sb.append(likesInt);
-		String likeString = sb.toString();
-		*/
+		likesInt = likesInt + 1;	// here's where the like is happening
 						
         pm.writeLikes(login, picid, likesInt);
         

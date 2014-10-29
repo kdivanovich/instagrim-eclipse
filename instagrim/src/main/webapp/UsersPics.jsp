@@ -50,13 +50,19 @@
 				<h3><% out.println(lg.getUsername()); %></h3>
 				<li class="nav"><a href="/Instagrim/DisplayAllImages">Show All Images</a></li>
                 <li class="nav"><a href="/Instagrim/upload.jsp">Upload</a></li>                
-                <li><a href="/Instagrim/Logout">Logout</a></li> </br>
+                <li><a href="/Instagrim/Logout">Logout</a></li> </br>                
             </ul>
         </nav>
         
  
         <article>
             <h1>Your Pics</h1>
+            
+                <form method="POST" action="/Instagrim/Search">
+                	<input type="text" name="searchText" placeholder="search by name/caption" >	
+					<input type="submit"	value="Search"> 
+				</form><br><br>
+				
         <%
             LinkedList<Pic> lsPics = (LinkedList<Pic>) request.getAttribute("Pics");
        		LinkedList<String> lsComments = new LinkedList<>();

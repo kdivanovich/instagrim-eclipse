@@ -97,16 +97,20 @@ public class PicModel {
 			PreparedStatement psInsertPicToUser = session.prepare("insert into userpiclist ( picid, user, pic_added, caption) values(?,?,?,?)");
 				//insert 0 likes
 			PreparedStatement psInsertLikes = session.prepare("insert into likes (likes,login,picid) values(?,?,?)");
+			PreparedStatement psInsertPicIntoTags = session.prepare("insert into tags (tag,user,picid) values(?,?,?)");
+			
 			
 			BoundStatement bsInsertPic = new BoundStatement(psInsertPic);
 			BoundStatement bsInsertPicToUser = new BoundStatement(psInsertPicToUser);
 			BoundStatement bsInsertLikes = new BoundStatement(psInsertLikes);
+			BoundStatement bsInsertPicIntoTags = new BoundStatement(psInsertPicIntoTags);
 
 			Date DateAdded = new Date();
 			session.execute(bsInsertPic.bind(picid, buffer, thumbbuf,
 							processedbuf, user, DateAdded, length, thumblength,processedlength, type, name));
 			session.execute(bsInsertPicToUser.bind(picid, user, DateAdded, caption));
 			session.execute(bsInsertLikes.bind(likes, user, picid.toString()));
+			session.execute(bsInsertPicIntoTags.bind(caption, user, picid));
 			session.close();
 
 		} catch (IOException ex) {
@@ -398,6 +402,7 @@ public class PicModel {
 		}
 		return Pics;
 	}
+	
 		
 	//========================================================================================================================
 		// write comments to the table
@@ -436,12 +441,34 @@ public class PicModel {
 	        }
 	        
 	        return comments;
-	    }
-		
+	    }		
+
+	//========================================================================================================================
+
+	public UUID returnSearchTags(String searchText) {
+		UUID searchHit = null;
+	 	
+        Session session = cluster.connect("instagrim");
+        PreparedStatement ps = session.prepare("select picid from tags where tag=?  ALLOW FILTERING");
+        BoundStatement boundStatement = new BoundStatement(ps);
+        ResultSet rs = null;
+        rs = session.execute(boundStatement.bind(searchText));
+        
+        if (rs.isExhausted()) {
+            System.out.println("No names/captions yet.");
+            return null;
+        } else {
+            for (Row row : rs) {	                
+            	searchHit = (row.getUUID("picid"));
+            }
+        }
+        
+        return searchHit;
+
+	}
 	
 	//========================================================================================================================
-		//this one is my work
-	
+			
 		// method to make a query that returns all pics in the dB, almost a copy of the above method
 	public LinkedList<Pic> getAllPics() {		
         LinkedList<Pic> Pics = new LinkedList<>();
