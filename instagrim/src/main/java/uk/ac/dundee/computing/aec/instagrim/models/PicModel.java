@@ -420,7 +420,7 @@ public class PicModel {
 	
 
 	//========================================================================================================================
-			// method to display the comments
+			// display the comments
 		
 	 public LinkedList<String> getCommentsForPic(String picid) {
 		 LinkedList<String> comments = new LinkedList<>();
@@ -444,12 +444,13 @@ public class PicModel {
 	    }		
 
 	//========================================================================================================================
-
-	public UUID returnSearchTags(String searchText) {
-		UUID searchHit = null;
+	 	//search 
+	 
+	public LinkedList<String> getSearchTags(String searchText) {
+		LinkedList<String> searchHit = new LinkedList<>();
 	 	
         Session session = cluster.connect("instagrim");
-        PreparedStatement ps = session.prepare("select picid from tags where tag=?  ALLOW FILTERING");
+        PreparedStatement ps = session.prepare("select user,picid from tags where tag=?  ALLOW FILTERING");
         BoundStatement boundStatement = new BoundStatement(ps);
         ResultSet rs = null;
         rs = session.execute(boundStatement.bind(searchText));
@@ -459,7 +460,7 @@ public class PicModel {
             return null;
         } else {
             for (Row row : rs) {	                
-            	searchHit = (row.getUUID("picid"));
+            	searchHit.add(row.getString("user")+": "+row.getUUID("picid").toString());
             }
         }
         

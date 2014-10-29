@@ -50,7 +50,7 @@ public class Search extends HttpServlet {
 			PicModel pm = new PicModel();
 			pm.setCluster(cluster);
 
-			pm.returnSearchTags(searchText);
+			pm.getSearchTags(searchText);
 
 			// set up a parameter to be passed to the jsp page the servlet is redirecting to
 			HttpSession session = request.getSession();

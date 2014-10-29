@@ -45,13 +45,17 @@
      <b>Search for: 
      <%
      out.println(session.getAttribute("searchedFor")); //print the passed searched text from UsersPics.jsp
-     UUID picTag = picMod.returnSearchTags(searchedFor);
+     LinkedList<String> lsTags = new LinkedList<>();     
+     lsTags = picMod.getSearchTags(searchedFor);
+     
+     
+     String userAndUUID = lsTags.get(0);
+	 String[] parts = userAndUUID.split(": ");
+	 
+	 
      %></b></b> <br>
-     
-     <a href="/Instagrim/Image/<%=picTag%>" > <br>
-     <a href="/Instagrim/Image/<%=picTag%>" ><img src="/Instagrim/Thumb/<%=picTag%>"></a></br>
-     
-     Original Poster: 
+     <a href="/Instagrim/Image/<%=parts[1]%>" ><img src="/Instagrim/Thumb/<%=parts[1]%>"></a></br><br>
+     Original Poster: <a href="/Instagrim/Images/<%=parts[0]%>" >  <%out.println(parts[0]); %> </a><br>
 		
 <% session.removeAttribute("searchedFor"); %>
 </body>
