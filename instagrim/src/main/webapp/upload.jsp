@@ -53,7 +53,7 @@
             <form method="POST" enctype="multipart/form-data" action="Image">
                 File to upload: <input type="file" name="upfile" accept="image"><br/>
                 <br/>
-                <input type="text" name="caption" placeholder="picture name/caption"> <br/><br/>
+                <input type="text" name="caption" value="" placeholder="picture name/caption"> <br/><br/>
                 <input type="text" name="likes" value="0" hidden>
                 
                 Filter: <select type="text" name="filter">

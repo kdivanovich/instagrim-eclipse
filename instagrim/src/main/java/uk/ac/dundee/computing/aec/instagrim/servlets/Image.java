@@ -163,6 +163,9 @@ public class Image extends HttpServlet {
             System.out.println("Part Name " + part.getName());
 
             String caption = request.getParameter("caption");	// retrieve the name
+            if (caption.isEmpty()) {
+            	caption = "(no name)";
+            }
             String type = part.getContentType();
             String filename = part.getSubmittedFileName();   
             String filter = request.getParameter("filter");
