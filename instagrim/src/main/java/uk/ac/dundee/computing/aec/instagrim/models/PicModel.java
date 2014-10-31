@@ -90,7 +90,7 @@ public class PicModel {
 			byte[] processedb = picdecolour(picid.toString(), types[1], filter);	// apply filter
 			ByteBuffer processedbuf = ByteBuffer.wrap(processedb);
 			int processedlength = processedb.length;
-			Session session = cluster.connect("instagrim");
+			Session session = cluster.connect("instagrimKI");
 			
 				// now inserting a caption/name as well
 			PreparedStatement psInsertPic = session.prepare("insert into pics ( picid, image,thumb,processed, user, interaction_time,imagelength,thumblength,processedlength,type,name) values(?,?,?,?,?,?,?,?,?,?,?)");
@@ -121,7 +121,7 @@ public class PicModel {
 	// deleting a picture funtionality:
 	public String deletePic(String user, UUID picID) {
 		try {
-			Session session = cluster.connect("instagrim");
+			Session session = cluster.connect("instagrimKI");
 
 			PreparedStatement psTimeStored = session.prepare("SELECT interaction_time, user FROM pics WHERE picid = ?");
 			PreparedStatement psPicDelete = session.prepare("DELETE FROM pics WHERE picid = ?");
@@ -329,7 +329,7 @@ public class PicModel {
 			// write likes to the table
 		
 		public void writeLikes(String login, String picid, int likes) {
-			Session session = cluster.connect("instagrim");
+			Session session = cluster.connect("instagrimKI");
 					    	 
 		    PreparedStatement ps = session.prepare("insert into likes (login,picid,likes) values(?,?,?)");
 		    BoundStatement bs = new BoundStatement(ps);
@@ -341,7 +341,7 @@ public class PicModel {
 
 	public int getLikesForPic(String picid) {
 		 	int likes = 0;
-	        Session session = cluster.connect("instagrim");
+	        Session session = cluster.connect("instagrimKI");
 	        PreparedStatement ps = session.prepare("select login,likes from likes where picid=?  ALLOW FILTERING");
 	        BoundStatement boundStatement = new BoundStatement(ps);
 	        ResultSet rs = null;
@@ -364,7 +364,7 @@ public class PicModel {
 	
 	public LinkedList<Pic> getPicsForUser(String User) {
 		LinkedList<Pic> Pics = new LinkedList<>();
-		Session session = cluster.connect("instagrim");
+		Session session = cluster.connect("instagrimKI");
 		// PreparedStatement ps = session.prepare("select picid from userpiclist where user =?");	// removing to specify if all pics(user Majed) are specified
 		PreparedStatement psAllPics;
 		
@@ -408,7 +408,7 @@ public class PicModel {
 		// write comments to the table
 	
 	public void writeComment(String login, String picid, String comment) {
-		Session session = cluster.connect("instagrim");
+		Session session = cluster.connect("instagrimKI");
 		
 		Convertors convertor = new Convertors();
 		java.util.UUID commentid = convertor.getTimeUUID();
@@ -425,7 +425,7 @@ public class PicModel {
 	 public LinkedList<String> getCommentsForPic(String picid) {
 		 LinkedList<String> comments = new LinkedList<>();
 		 	
-	        Session session = cluster.connect("instagrim");
+	        Session session = cluster.connect("instagrimKI");
 	        PreparedStatement ps = session.prepare("select login,comment from comments where picid=?  ALLOW FILTERING");
 	        BoundStatement boundStatement = new BoundStatement(ps);
 	        ResultSet rs = null;
@@ -449,7 +449,7 @@ public class PicModel {
 	public LinkedList<String> getSearchTags(String searchText) {
 		LinkedList<String> searchHit = new LinkedList<>();
 	 	
-        Session session = cluster.connect("instagrim");
+        Session session = cluster.connect("instagrimKI");
         PreparedStatement ps = session.prepare("select user,picid from tags where tag=?  ALLOW FILTERING");
         BoundStatement boundStatement = new BoundStatement(ps);
         ResultSet rs = null;
@@ -473,7 +473,7 @@ public class PicModel {
 		// method to make a query that returns all pics in the dB, almost a copy of the above method
 	public LinkedList<Pic> getAllPics() {		
         LinkedList<Pic> Pics = new LinkedList<>();
-        Session session = cluster.connect("instagrim");
+        Session session = cluster.connect("instagrimKI");
         PreparedStatement ps = session.prepare("select picid,caption,user from userpiclist");
         ResultSet rs = null;
         
@@ -503,7 +503,7 @@ public class PicModel {
 	
 
 	public Pic getPic(int image_type, java.util.UUID picid) throws IOException {
-		Session session = cluster.connect("instagrim");
+		Session session = cluster.connect("instagrimKI");
 		ByteBuffer bImage = null;
 		String type = null;
 		int length = 0;

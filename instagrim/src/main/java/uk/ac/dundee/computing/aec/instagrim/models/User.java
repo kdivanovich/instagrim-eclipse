@@ -39,7 +39,7 @@ public class User {
             System.out.println("Can't check your password");
             return false;
         }
-        Session session = cluster.connect("instagrim");
+        Session session = cluster.connect("instagrimKI");
         
         String currentUser = username.toString();	// added so I can use it in the setting up the third PreparedStatement below
         
@@ -98,7 +98,7 @@ public class User {
     //================================================================================================================
     
     public void Comment(String username, String picid, String comment ){        
-        Session session = cluster.connect("instagrim");
+        Session session = cluster.connect("instagrimKI");
         
         Convertors picConvertor = new Convertors();
         java.util.UUID commentid = picConvertor.getTimeUUID();
@@ -116,7 +116,7 @@ public class User {
   	public void UpdateAvatar(String username, String picid) {
   		//  public void UpdateUserDetails(String username, String firstName, String lastName, String email ){
          
-          Session session = cluster.connect("instagrim");    
+          Session session = cluster.connect("instagrimKI");    
           PreparedStatement psFirstNameDelete = session.prepare
           		("update userprofiles set picid=? where login=? ");
           BoundStatement boundStatementFirstNameDelete = new BoundStatement(psFirstNameDelete);
@@ -130,7 +130,7 @@ public class User {
     
     public void UpdateUserDetails(String username, String firstName, String lastName, String email ){
        
-        Session session = cluster.connect("instagrim");    
+        Session session = cluster.connect("instagrimKI");    
         PreparedStatement psFirstNameDelete = session.prepare
         		("update userprofiles set first_name=?, last_name=?, email=? where login=? ");
         BoundStatement boundStatementFirstNameDelete = new BoundStatement(psFirstNameDelete);
@@ -155,7 +155,7 @@ public class User {
         }
         	// end of encoding
         
-        Session session = cluster.connect("instagrim");
+        Session session = cluster.connect("instagrimKI");
         PreparedStatement ps = session.prepare("select password from userprofiles where login =?");
         ResultSet rs = null;
         BoundStatement boundStatement = new BoundStatement(ps);
@@ -182,7 +182,7 @@ public class User {
        // the method that pulls the First Name from the database
        public String getFirstName(String username){
     	   String firstName = "no name found";
-    	   Session session = cluster.connect("instagrim");
+    	   Session session = cluster.connect("instagrimKI");
            PreparedStatement ps = session.prepare("select first_name from userprofiles where login =?");
            ResultSet rs = null;
            BoundStatement boundStatement = new BoundStatement(ps);
@@ -202,7 +202,7 @@ public class User {
     // the method that pulls the Last Name from the database
        public String getLastName(String username){
     	   String lastName = "no name found";
-    	   Session session = cluster.connect("instagrim");
+    	   Session session = cluster.connect("instagrimKI");
            PreparedStatement ps = session.prepare("select last_name from userprofiles where login =?");
            ResultSet rs = null;
            BoundStatement boundStatement = new BoundStatement(ps);
@@ -225,7 +225,7 @@ public class User {
     // the method that pulls the email from the database
        public String getEmail(String username){
     	   String email = "no email found";
-    	   Session session = cluster.connect("instagrim");
+    	   Session session = cluster.connect("instagrimKI");
            PreparedStatement ps = session.prepare("select email from userprofiles where login =?");
            ResultSet rs = null;
            BoundStatement boundStatement = new BoundStatement(ps);
@@ -247,7 +247,7 @@ public class User {
 
 	public String getPicid(String username) {
 		String picid = "no avatar found";
- 	    Session session = cluster.connect("instagrim");
+ 	    Session session = cluster.connect("instagrimKI");
         PreparedStatement ps = session.prepare("select picid from userprofiles where login =?");
         ResultSet rs = null;
         BoundStatement boundStatement = new BoundStatement(ps);
