@@ -500,7 +500,7 @@ public class PicModel {
 	
 	
 	//========================================================================================================================
-	
+		// Note to self: there are unused filters here, mine don't use the Swing lib 
 
 	public Pic getPic(int image_type, java.util.UUID picid) throws IOException {
 		Session session = cluster.connect("instagrimKI");
@@ -602,4 +602,32 @@ public class PicModel {
         }
         return imageInByte;
     }
+	
+	// ==============================================================================================================
+			//get the pic names so you can warn the user to name a new pic uniquely
+		
+		public LinkedList<String> getPicNames(String user) {
+			
+			LinkedList<String> picNames = new LinkedList<>();
+		 	
+	        Session session = cluster.connect("instagrimKI");
+	        PreparedStatement ps = session.prepare("select caption from userpiclist where user =?");
+	        BoundStatement boundStatement = new BoundStatement(ps);
+	        ResultSet rs = null;
+	        rs = session.execute(boundStatement.bind(user));
+	        
+	        if (rs.isExhausted()) {
+	            System.out.println("No users Yet.");
+	            return null;
+	        } else {
+	            for (Row row : rs) {	                
+	            	picNames.add(row.getString("caption"));
+	            }
+	        }
+	        
+	        return picNames;
+		}
+
+
+	
 }

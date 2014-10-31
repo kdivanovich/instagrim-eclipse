@@ -188,6 +188,31 @@ public class Image extends HttpServlet {
                 tm.insertPic(b, type, filename, username, caption, likes, filter);
 
                 is.close();
+                
+                /*		-- experimental code to check if a new image's name is the same as one that's in the dB
+                 boolean picNameAvailable = true;
+                byte[] b = new byte[i + 1];
+                is.read(b);
+                System.out.println("Length : " + b.length);
+                PicModel tm = new PicModel();
+                
+				LinkedList<String> picNames = new LinkedList<>();
+                	picNames = tm.getPicNames(username);                 
+                		for (int j=0; j<picNames.size(); j++) {
+                			if (caption.equals(picNames.get(j))){
+                				picNameAvailable = false;
+                	} 
+                }
+                
+				if (picNameAvailable == true) {
+					tm.setCluster(cluster);
+					tm.insertPic(b, type, filename, username, caption, likes,
+							filter);
+
+					is.close();
+				}
+ 
+                 */
             }
             RequestDispatcher rd = request.getRequestDispatcher("/upload.jsp");
              rd.forward(request, response);
